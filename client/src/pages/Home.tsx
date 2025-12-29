@@ -1,9 +1,11 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import CyberpunkLayout from "@/components/CyberpunkLayout";
 import CyberCard from "@/components/CyberCard";
 import StatMetric from "@/components/StatMetric";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, CheckCircle2, TrendingUp, Users, DollarSign, Eye, MousePointerClick, Activity } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Users, DollarSign, Activity, Eye, Settings as SettingsIcon } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { useLocation } from "wouter";
 
 const performanceData = [
   { name: 'Profile Visits', cpr: 28.23, spend: 1500 },
@@ -23,6 +25,9 @@ const trendData = [
 ];
 
 export default function Home() {
+  const { user, loading } = useAuth();
+  const [, setLocation] = useLocation();
+
   return (
     <CyberpunkLayout>
       {/* Header Section */}
@@ -36,6 +41,14 @@ export default function Home() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            className="border-primary text-primary hover:bg-primary/10 font-mono"
+            onClick={() => setLocation("/settings")}
+          >
+            <SettingsIcon className="w-4 h-4 mr-2" />
+            CONFIGURE API
+          </Button>
           <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 font-mono">
             EXPORT REPORT
           </Button>
