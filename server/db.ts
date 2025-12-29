@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, metaAdsCredentials, InsertMetaAdsCredentials } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -85,6 +85,44 @@ export async function getUserByOpenId(openId: string) {
   }
 
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Meta Ads Credentials helpers
+export async function saveMetaAdsCredentials(userId: number, credentials: Omit<InsertMetaAdsCredentials, 'userId' | 'id' | 'createdAt' | 'updatedAt'>) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  try {
+    // Delete existing credentials for this user
+    await db.delete(metaAdsCredentials).where(eq(metaAdsCredentials.userId, userId));
+    
+    // Insert new credentials
+    await db.insert(metaAdsCredentials).values({
+      userId,
+      ...credentials,
+    });
+  } catch (error) {
+    console.error("[Database] Failed to save Meta Ads credentials:", error);
+    throw error;
+  }
+}
+
+export async function getMetaAdsCredentials(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get credentials: database not available");
+    return undefined;
+  }
+
+  const result = await db
+    .select()
+    .from(metaAdsCredentials)
+    .where(eq(metaAdsCredentials.userId, userId))
+    .limit(1);
 
   return result.length > 0 ? result[0] : undefined;
 }

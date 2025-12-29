@@ -25,4 +25,22 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+/**
+ * Meta Ads API credentials table
+ * Stores encrypted credentials for connecting to Meta Ads API
+ */
+export const metaAdsCredentials = mysqlTable("metaAdsCredentials", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  appId: varchar("appId", { length: 255 }).notNull(),
+  appSecret: text("appSecret").notNull(),
+  accessToken: text("accessToken").notNull(),
+  adAccountId: varchar("adAccountId", { length: 255 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MetaAdsCredentials = typeof metaAdsCredentials.$inferSelect;
+export type InsertMetaAdsCredentials = typeof metaAdsCredentials.$inferInsert;
+
 // TODO: Add your tables here

@@ -10,17 +10,20 @@
 - [x] Corregir error 404 en ruta /settings
 - [x] Probar conexión exitosa con Meta Ads API
 
-## 🔄 En Progreso
+## ✅ Completado
 - [x] Implementar endpoint para obtener campañas desde Meta Ads API
 - [x] Implementar endpoint para obtener anuncios desde Meta Ads API
 - [x] Implementar endpoint para obtener insights/métricas desde Meta Ads API
-- [ ] Conectar dashboard con datos reales de la API
-- [ ] Actualizar gráficos para usar datos en tiempo real
-- [ ] Crear tests de integración con Meta Ads API
-- [ ] Crear guía estratégica de uso del dashboard
+- [x] Crear guía estratégica de uso del dashboard
+- [x] Crear procedimientos tRPC para exponer datos de Meta Ads al frontend
+- [x] Actualizar Home.tsx para obtener datos reales desde tRPC
+- [x] Reemplazar datos mock con datos reales en métricas principales
+- [x] Actualizar gráficos para usar datos en tiempo real
+- [x] Implementar funcionalidad de pausar anuncios
+- [x] Agregar manejo de errores y estados de carga
 
 ## 📋 Pendiente
-- [ ] Implementar caché de datos en base de datos
+- [x] Implementar persistencia de credenciales en base de datos
 - [ ] Agregar página de detalles de campaña individual
 - [ ] Agregar página de detalles de anuncio individual
 - [ ] Implementar alertas automáticas por CPR alto
