@@ -377,15 +377,28 @@ export default function AICopilot() {
   });
 
   const approveMutation = trpc.aiCopilot.approveSuggestion.useMutation({
-    onSuccess: () => {
-      toast.success("Sugerencia aprobada y ejecutada correctamente");
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success("✅ Acción ejecutada correctamente en Meta Ads", {
+          description: "La sugerencia ha sido aprobada y la acción se ha ejecutado en tu cuenta de Meta Ads.",
+          duration: 5000,
+        });
+      } else {
+        toast.warning("⚠️ Acción aprobada pero requiere ejecución manual", {
+          description: data.error || "La acción no pudo ejecutarse automáticamente. Por favor, realízala manualmente en Meta Ads Manager.",
+          duration: 8000,
+        });
+      }
       setApprovingId(null);
       refetchPending();
       refetchAll();
       refetchStats();
     },
     onError: (error) => {
-      toast.error(`Error al aprobar: ${error.message}`);
+      toast.error(`❌ Error al aprobar: ${error.message}`, {
+        description: "Hubo un problema al procesar la sugerencia. Por favor, intenta de nuevo.",
+        duration: 5000,
+      });
       setApprovingId(null);
     },
   });

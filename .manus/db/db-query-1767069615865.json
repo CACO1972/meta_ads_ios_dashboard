@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, action, targetId, targetName, status FROM suggestions WHERE status = 'failed' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT id, action, targetId, targetName, status FROM suggestions WHERE status = 'failed' LIMIT 5;",
+  "rows": [
+    {
+      "id": "24",
+      "action": "pause_ad",
+      "targetId": "6792562454428",
+      "targetName": "Publicación de Instagram: 😃Les informamos los...",
+      "status": "failed"
+    },
+    {
+      "id": "26",
+      "action": "pause_ad",
+      "targetId": "6812569282628",
+      "targetName": "Publicación de Instagram: 🧐Dr. Carlos Montoya nos...",
+      "status": "failed"
+    },
+    {
+      "id": "27",
+      "action": "pause_ad",
+      "targetId": "6812569310828",
+      "targetName": "Publicación de Instagram: ✨ Un desafío que nos...",
+      "status": "failed"
+    },
+    {
+      "id": "28",
+      "action": "pause_ad",
+      "targetId": "6812430701228",
+      "targetName": "Publicación de Instagram: 💭¡Sonrisas felices...",
+      "status": "failed"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taction\ttargetId\ttargetName\tstatus\n24\tpause_ad\t6792562454428\tPublicación de Instagram: 😃Les informamos los...\tfailed\n26\tpause_ad\t6812569282628\tPublicación de Instagram: 🧐Dr. Carlos Montoya nos...\tfailed\n27\tpause_ad\t6812569310828\tPublicación de Instagram: ✨ Un desafío que nos...\tfailed\n28\tpause_ad\t6812430701228\tPublicación de Instagram: 💭¡Sonrisas felices...\tfailed\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

@@ -1,0 +1,38 @@
+{
+  "query": "SELECT se.id, se.suggestionId, se.success, se.errorMessage, se.apiResponse FROM suggestionExecutions se WHERE se.success = false LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT se.id, se.suggestionId, se.success, se.errorMessage, se.apiResponse FROM suggestionExecutions se WHERE se.success = false LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "suggestionId": "26",
+      "success": "0",
+      "errorMessage": "(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.",
+      "apiResponse": "{\"error\": {\"code\": 2635, \"fbtrace_id\": \"AT0MAjq9pjqW-BAqDKYeQc-\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}"
+    },
+    {
+      "id": "5",
+      "suggestionId": "27",
+      "success": "0",
+      "errorMessage": "(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.",
+      "apiResponse": "{\"error\": {\"code\": 2635, \"fbtrace_id\": \"ADWSWWMnbAmF5cgOIqzqNJ0\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}"
+    },
+    {
+      "id": "6",
+      "suggestionId": "24",
+      "success": "0",
+      "errorMessage": "(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.",
+      "apiResponse": "{\"error\": {\"code\": 2635, \"fbtrace_id\": \"AEX7RJhAFmz_ca1FwUiMWns\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}"
+    },
+    {
+      "id": "14",
+      "suggestionId": "28",
+      "success": "0",
+      "errorMessage": "(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.",
+      "apiResponse": "{\"error\": {\"code\": 2635, \"fbtrace_id\": \"A7QP0IZ78207N5418ZZyD7h\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsuggestionId\tsuccess\terrorMessage\tapiResponse\n1\t26\t0\t(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\t{\"error\": {\"code\": 2635, \"fbtrace_id\": \"AT0MAjq9pjqW-BAqDKYeQc-\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}\n5\t27\t0\t(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\t{\"error\": {\"code\": 2635, \"fbtrace_id\": \"ADWSWWMnbAmF5cgOIqzqNJ0\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}\n6\t24\t0\t(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\t{\"error\": {\"code\": 2635, \"fbtrace_id\": \"AEX7RJhAFmz_ca1FwUiMWns\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}\n14\t28\t0\t(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\t{\"error\": {\"code\": 2635, \"fbtrace_id\": \"A7QP0IZ78207N5418ZZyD7h\", \"message\": \"(#2635) You are calling a deprecated version of the Ads API. Please upgrade to the latest version: v22.0.\", \"type\": \"OAuthException\"}}\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, action, status FROM suggestions WHERE status != 'pending' ORDER BY id DESC LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT id, action, status FROM suggestions WHERE status != 'pending' ORDER BY id DESC LIMIT 15;",
+  "rows": [
+    {
+      "id": "34",
+      "action": "optimize_schedule",
+      "status": "executed"
+    },
+    {
+      "id": "32",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "31",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "30",
+      "action": "consolidate_campaigns",
+      "status": "executed"
+    },
+    {
+      "id": "29",
+      "action": "refresh_creative",
+      "status": "executed"
+    },
+    {
+      "id": "28",
+      "action": "pause_ad",
+      "status": "failed"
+    },
+    {
+      "id": "27",
+      "action": "pause_ad",
+      "status": "failed"
+    },
+    {
+      "id": "26",
+      "action": "pause_ad",
+      "status": "failed"
+    },
+    {
+      "id": "24",
+      "action": "pause_ad",
+      "status": "failed"
+    },
+    {
+      "id": "22",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "21",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "20",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "19",
+      "action": "scale_budget",
+      "status": "executed"
+    },
+    {
+      "id": "18",
+      "action": "scale_budget",
+      "status": "executed"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taction\tstatus\n34\toptimize_schedule\texecuted\n32\tscale_budget\texecuted\n31\tscale_budget\texecuted\n30\tconsolidate_campaigns\texecuted\n29\trefresh_creative\texecuted\n28\tpause_ad\tfailed\n27\tpause_ad\tfailed\n26\tpause_ad\tfailed\n24\tpause_ad\tfailed\n22\tscale_budget\texecuted\n21\tscale_budget\texecuted\n20\tscale_budget\texecuted\n19\tscale_budget\texecuted\n18\tscale_budget\texecuted\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

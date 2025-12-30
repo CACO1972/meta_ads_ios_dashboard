@@ -44,3 +44,9 @@
 - [x] Agregar modo automático (sin aprobación) para sugerencias de alto confianza
 - [ ] Crear tests para validar sugerencias
 - [ ] Implementar notificaciones por email
+
+## 🐛 Bugs a Corregir
+- [x] Sugerencias no desaparecen después de aprobarlas (VERIFICADO: Funciona correctamente)
+- [x] Verificar que las acciones se ejecuten realmente en Meta Ads (VERIFICADO: Las acciones se ejecutan y se registran en la BD)
+- [x] Mejorar feedback visual al aprobar/rechazar sugerencias (Toast mejorado con descripción)
+- [x] Agregar tests de autenticación para AI Co-Pilot router
