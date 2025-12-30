@@ -3,7 +3,7 @@ import CyberpunkLayout from "@/components/CyberpunkLayout";
 import CyberCard from "@/components/CyberCard";
 import StatMetric from "@/components/StatMetric";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, CheckCircle2, Users, DollarSign, Activity, Eye, Settings as SettingsIcon, Loader2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Users, DollarSign, Activity, Eye, Settings as SettingsIcon, Loader2, Sparkles, Brain } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -177,6 +177,13 @@ export default function Home() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Button 
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-mono"
+            onClick={() => setLocation("/ai-copilot")}
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            AI CO-PILOT
+          </Button>
           <Button 
             variant="outline" 
             className="border-primary text-primary hover:bg-primary/10 font-mono"

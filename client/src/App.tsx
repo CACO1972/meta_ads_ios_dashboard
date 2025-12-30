@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
+import AICopilot from "./pages/AICopilot";
+import AICopilotConfig from "./pages/AICopilotConfig";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -13,6 +15,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/settings"} component={Settings} />
+      <Route path={"/ai-copilot"} component={AICopilot} />
+      <Route path={"/ai-copilot/config"} component={AICopilotConfig} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

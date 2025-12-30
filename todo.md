@@ -28,3 +28,19 @@
 - [ ] Agregar página de detalles de anuncio individual
 - [ ] Implementar alertas automáticas por CPR alto
 - [ ] Agregar exportación de reportes en PDF
+
+## 🤖 AI CO-PILOT - SISTEMA DE OPTIMIZACIÓN ASISTIDA
+- [x] Diseñar arquitectura del sistema de sugerencias (similar a Meta Ads)
+- [x] Implementar backend: análisis automático de todos los factores
+- [x] Implementar backend: generación de sugerencias con IA
+- [x] Implementar backend: sistema de aprobación/rechazo con un click
+- [x] Implementar backend: ejecución automática de acciones aprobadas
+- [x] Implementar frontend: panel de sugerencias pendientes
+- [x] Implementar frontend: modal de aprobación con detalles e impacto
+- [x] Implementar frontend: historial de sugerencias (aprobadas/rechazadas)
+- [x] Integrar datos reales de servicios (precios, LTV, ROI por servicio)
+- [x] Implementar sugerencias multi-factor: presupuesto, audiencia, creativos, horarios
+- [x] Implementar prompt maestro configurable
+- [x] Agregar modo automático (sin aprobación) para sugerencias de alto confianza
+- [ ] Crear tests para validar sugerencias
+- [ ] Implementar notificaciones por email
