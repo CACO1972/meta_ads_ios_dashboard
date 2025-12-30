@@ -22,6 +22,13 @@
       "when": 1767066271573,
       "tag": "0002_lame_dagger",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1767072814585,
+      "tag": "0003_unique_gabe_jones",
+      "breakpoints": true
     }
   ]
 }

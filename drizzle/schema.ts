@@ -209,3 +209,157 @@ export const aiCopilotConfig = mysqlTable("aiCopilotConfig", {
 
 export type AICopilotConfig = typeof aiCopilotConfig.$inferSelect;
 export type InsertAICopilotConfig = typeof aiCopilotConfig.$inferInsert;
+
+/**
+ * Platform Credentials table
+ * Stores credentials for multiple advertising platforms
+ */
+export const platformCredentials = mysqlTable("platformCredentials", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  platform: mysqlEnum("platform", ["meta", "tiktok", "google"]).notNull(),
+  
+  // Common fields
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  accountId: varchar("accountId", { length: 255 }),
+  
+  // Platform-specific fields (JSON)
+  platformConfig: json("platformConfig"), // Store platform-specific config
+  
+  isActive: boolean("isActive").default(true).notNull(),
+  lastSyncAt: timestamp("lastSyncAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PlatformCredentials = typeof platformCredentials.$inferSelect;
+export type InsertPlatformCredentials = typeof platformCredentials.$inferInsert;
+
+/**
+ * Global Campaigns table
+ * Stores AI-proposed multi-platform campaigns
+ */
+export const globalCampaigns = mysqlTable("globalCampaigns", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Campaign info
+  name: varchar("name", { length: 255 }).notNull(),
+  objective: varchar("objective", { length: 100 }).notNull(), // awareness, traffic, conversions
+  serviceId: int("serviceId").references(() => services.id),
+  
+  // Budget distribution
+  totalBudget: decimal("totalBudget", { precision: 15, scale: 2 }).notNull(),
+  metaBudget: decimal("metaBudget", { precision: 15, scale: 2 }),
+  tiktokBudget: decimal("tiktokBudget", { precision: 15, scale: 2 }),
+  googleBudget: decimal("googleBudget", { precision: 15, scale: 2 }),
+  
+  // Target audience
+  targetAgeMin: int("targetAgeMin"),
+  targetAgeMax: int("targetAgeMax"),
+  targetGender: mysqlEnum("targetGender", ["all", "male", "female"]),
+  targetLocations: json("targetLocations"), // ["Santiago", "Providencia"]
+  targetInterests: json("targetInterests"), // ["dental", "health"]
+  targetSocioeconomic: mysqlEnum("targetSocioeconomic", ["all", "high", "medium-high", "medium", "medium-low", "low"]),
+  
+  // AI reasoning
+  strategy: text("strategy").notNull(), // AI explanation of the strategy
+  expectedResults: json("expectedResults"), // { impressions, clicks, conversions, cpr }
+  
+  // Status
+  status: mysqlEnum("status", ["draft", "pending_approval", "approved", "active", "paused", "completed", "rejected"]).default("draft").notNull(),
+  approvedAt: timestamp("approvedAt"),
+  rejectedAt: timestamp("rejectedAt"),
+  rejectionReason: text("rejectionReason"),
+  
+  // Platform campaign IDs (after creation)
+  metaCampaignId: varchar("metaCampaignId", { length: 100 }),
+  tiktokCampaignId: varchar("tiktokCampaignId", { length: 100 }),
+  googleCampaignId: varchar("googleCampaignId", { length: 100 }),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GlobalCampaign = typeof globalCampaigns.$inferSelect;
+export type InsertGlobalCampaign = typeof globalCampaigns.$inferInsert;
+
+/**
+ * Content Production Guide table
+ * Stores AI-generated content recommendations and scripts
+ */
+export const contentGuides = mysqlTable("contentGuides", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Content type
+  type: mysqlEnum("type", ["video", "photo", "testimonial", "educational", "promotional", "behind_scenes"]).notNull(),
+  platform: mysqlEnum("platform", ["all", "meta", "tiktok", "google", "instagram", "youtube"]).notNull(),
+  serviceId: int("serviceId").references(() => services.id),
+  
+  // Content details
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  
+  // Script/Guide
+  script: text("script"), // Full script for videos
+  shotList: json("shotList"), // [{ shot: "Close-up", description: "...", duration: "3s" }]
+  equipmentNeeded: json("equipmentNeeded"), // ["ring light", "smartphone"]
+  locationSuggestions: json("locationSuggestions"), // ["consultorio", "recepción"]
+  
+  // Timing
+  estimatedDuration: int("estimatedDuration"), // seconds
+  recommendedPostTime: json("recommendedPostTime"), // { day: "tuesday", time: "18:00" }
+  
+  // Priority and status
+  priority: mysqlEnum("priority", ["high", "medium", "low"]).default("medium").notNull(),
+  status: mysqlEnum("status", ["pending", "in_production", "completed", "published"]).default("pending").notNull(),
+  
+  // AI reasoning
+  reasoning: text("reasoning"), // Why this content is recommended
+  expectedEngagement: json("expectedEngagement"), // { views, likes, shares, comments }
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ContentGuide = typeof contentGuides.$inferSelect;
+export type InsertContentGuide = typeof contentGuides.$inferInsert;
+
+/**
+ * Audience Insights table
+ * Stores analyzed audience data from all platforms
+ */
+export const audienceInsights = mysqlTable("audienceInsights", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  platform: mysqlEnum("platform", ["meta", "tiktok", "google", "combined"]).notNull(),
+  
+  // Demographics
+  ageDistribution: json("ageDistribution"), // { "18-24": 15, "25-34": 35, ... }
+  genderDistribution: json("genderDistribution"), // { male: 40, female: 60 }
+  
+  // Geographic
+  locationDistribution: json("locationDistribution"), // { "Santiago": 50, "Providencia": 20, ... }
+  topComunas: json("topComunas"), // ["Las Condes", "Providencia", "Vitacura"]
+  
+  // Socioeconomic (estimated)
+  socioeconomicDistribution: json("socioeconomicDistribution"), // { high: 30, medium: 50, low: 20 }
+  
+  // Interests and behaviors
+  topInterests: json("topInterests"), // ["salud", "belleza", "bienestar"]
+  deviceUsage: json("deviceUsage"), // { mobile: 80, desktop: 20 }
+  peakActivityTimes: json("peakActivityTimes"), // { monday: ["18:00", "20:00"], ... }
+  
+  // Performance by segment
+  bestPerformingSegments: json("bestPerformingSegments"), // [{ segment: "...", cpr: ..., roi: ... }]
+  
+  analyzedAt: timestamp("analyzedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AudienceInsight = typeof audienceInsights.$inferSelect;
+export type InsertAudienceInsight = typeof audienceInsights.$inferInsert;
