@@ -464,87 +464,101 @@ function generateProductionGuide(service: ServiceDefinition): ProductionGuideIte
   return guides;
 }
 
+// Brand Voice: Profesional, calmo, seguro, educativo, premium
+// NUNCA usar: garantías, urgencia, "antes y después" explícito, diagnósticos
+// SÍ usar: orientación clínica, evaluación responsable, transparencia
+
 function generateTestimonialScript(service: ServiceDefinition): string {
   return `**GUIÓN: Testimonial ${service.name}**
+*Siguiendo Brand Voice Clínica Miró: Profesional, calmo, educativo, premium*
 
 [INTRO - 5 segundos]
-Paciente: "Hola, soy [Nombre] y quiero contarles mi experiencia en Clínica Miró."
+Paciente: "Hola, soy [Nombre] y quiero compartir mi experiencia en Clínica Miró."
 
-[PROBLEMA - 10 segundos]
-"Hace [tiempo], tenía [problema relacionado al servicio]. Me sentía [emoción negativa]."
+[CONTEXTO - 10 segundos]
+"Hace [tiempo], tenía una situación que afectaba [aspecto de mi vida]. Decidí buscar orientación profesional."
 
-[SOLUCIÓN - 15 segundos]
-"Llegué a Clínica Miró y el equipo me explicó todo sobre ${service.name}. El proceso fue [descripción positiva]."
+[EXPERIENCIA - 15 segundos]
+"En Clínica Miró, el equipo me explicó todas las opciones disponibles para mi caso. El proceso de ${service.name} fue [descripción de la experiencia, no del resultado]."
 
-[RESULTADO - 20 segundos]
-"Ahora [beneficio obtenido]. Me siento [emoción positiva]. Lo recomiendo totalmente."
+[SENSACIONES - 15 segundos]
+"Hoy me siento [emoción positiva]. La experiencia superó mis expectativas."
 
-[CALL TO ACTION - 10 segundos]
-"Si estás pensando en hacerte ${service.name}, no lo dudes. Agenda tu hora en Clínica Miró."
+[CIERRE - 10 segundos]
+"Si estás considerando ${service.name}, te invito a agendar una evaluación. Cada caso es único."
 
 ---
-NOTAS DE PRODUCCIÓN:
-- Grabar en ambiente tranquilo
+NOTAS DE PRODUCCIÓN (BRAND VOICE):
+- Grabar en ambiente tranquilo y profesional
 - Paciente debe verse natural, no actuado
 - Incluir consentimiento firmado
-- Mostrar antes/después si es posible`;
+- NO mostrar comparativas explícitas "antes/después"
+- Enfocarse en la EXPERIENCIA, no en resultados clínicos
+- Tono calmo y seguro, sin urgencia
+- Evitar promesas de resultados`;
 }
 
 function generateTransformationScript(service: ServiceDefinition): string {
-  return `**GUIÓN: Transformación ${service.name}**
+  return `**GUIÓN: Proceso de ${service.name}**
+*Siguiendo Brand Voice Clínica Miró: Premium, sin urgencia, educativo*
 
 [HOOK - 3 segundos]
-Texto en pantalla: "Mira esta transformación increíble 😱"
+Texto en pantalla: "Conoce el proceso de ${service.name} ✨"
 
-[ANTES - 5 segundos]
-- Mostrar área a tratar
-- Texto: "ANTES"
+[CONTEXTO - 5 segundos]
+- Ambiente profesional de la clínica
+- Texto: "En Clínica Miró"
 
-[PROCESO - 10 segundos]
-- Time-lapse del procedimiento
-- Música trending de fondo
-- Texto: "El proceso..."
+[PROCESO - 15 segundos]
+- Secuencia del procedimiento (sin mostrar comparativas explícitas)
+- Música elegante de fondo
+- Texto: "Orientación clínica profesional"
 
-[DESPUÉS - 7 segundos]
-- Resultado final
-- Texto: "DESPUÉS ✨"
-- Reacción del paciente
+[EXPERIENCIA - 7 segundos]
+- Paciente en ambiente cómodo
+- Texto: "Tu sonrisa, nuestra pasión"
+- Sonrisa natural del paciente
 
 [CTA - 5 segundos]
-Texto: "¿Quieres tu transformación? 📍 Clínica Miró"
-Logo y contacto
+Texto: "Agenda tu evaluación sin costo"
+Logo Clínica Miró (dorado #C4A265)
 
 ---
-NOTAS:
+NOTAS (BRAND VOICE):
 - Video vertical (9:16) para TikTok/Reels
-- Usar música trending
-- Transiciones rápidas
-- Colores vibrantes`;
+- Usar música elegante, no estridente
+- Transiciones suaves y profesionales
+- Paleta de colores: Dorado #C4A265, Lila #9B8AA5, Negro #0A0A0D
+- NO usar "antes/después" explícito
+- NO usar urgencia ni promesas
+- Tono premium y calmo`;
 }
 
 function generateEducationalScript(service: ServiceDefinition): string {
   return `**GUIÓN: Educativo ${service.name}**
+*Siguiendo Brand Voice Clínica Miró: Educativo, profesional, sin tecnicismos*
 
 [INTRO - 10 segundos]
-Doctor: "Hola, soy [Nombre], [especialidad] de Clínica Miró. Hoy les voy a explicar todo sobre ${service.name}."
+Doctor: "Hola, soy [Nombre], [especialidad] de Clínica Miró. Hoy quiero orientarte sobre ${service.name}."
 
 [¿QUÉ ES? - 20 segundos]
-"${service.name} es un tratamiento que [explicación simple del procedimiento]. Es ideal para personas que [perfil del paciente ideal]."
+"${service.name} es un procedimiento que [explicación clara y accesible]. Puede ser una opción para personas que [descripción general, sin diagnosticar]."
 
-[BENEFICIOS - 20 segundos]
-"Los principales beneficios son:
-1. [Beneficio 1]
-2. [Beneficio 2]
-3. [Beneficio 3]"
+[CONSIDERACIONES - 20 segundos]
+"Algunos aspectos a considerar:
+1. [Aspecto informativo 1]
+2. [Aspecto informativo 2]
+3. [Aspecto informativo 3]
+Cada caso es único y requiere evaluación profesional."
 
 [PROCESO - 20 segundos]
-"El procedimiento consiste en [pasos simplificados]. Dura aproximadamente [tiempo] y [información sobre dolor/recuperación]."
+"El procedimiento generalmente consiste en [pasos simplificados]. La duración y recuperación varían según cada paciente."
 
 [PREGUNTAS FRECUENTES - 15 segundos]
-"La pregunta más común es [pregunta]. La respuesta es [respuesta]."
+"Una pregunta frecuente es [pregunta]. La respuesta depende de cada caso, pero en general [orientación sin prometer]."
 
 [CTA - 5 segundos]
-"Si tienes más preguntas, agenda una evaluación gratuita en Clínica Miró. Link en la bio."
+"Para saber si es adecuado para ti, agenda una orientación clínica inicial en Clínica Miró. Link en la bio."
 
 ---
 NOTAS:

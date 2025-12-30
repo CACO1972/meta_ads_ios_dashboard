@@ -130,3 +130,26 @@
 - [x] Toxina Botulínica Sonrisa Gingival: $106,402
 - [x] Toxina Botulínica Zona Periocular: $127,926
 - [x] Rinomodelación: $191,889
+
+## 🎨 BRANDING CLÍNICA MIRÓ (INTEGRADO)
+- [x] Extraer Brand Voice del documento oficial
+- [x] Extraer paleta de colores del Brand Book
+- [x] Integrar logos (icono y completo) al proyecto
+- [x] Agregar variables CSS de colores Miró
+- [x] Actualizar guiones con Brand Voice oficial
+- [x] Configurar tono: Profesional, calmo, seguro, educativo, premium
+- [x] Implementar reglas de contenido prohibido (sin urgencia, sin garantías)
+- [x] Crear archivo de configuración de branding
+
+## 🎨 PALETA DE COLORES OFICIAL
+- Oro Principal: #C4A265 (elementos de acción y premium)
+- Lila Secundario: #9B8AA5 (categorías y labels)
+- Negro Profundo: #0A0A0D (fondo oscuro)
+- Crema Cálido: #FCFBF9 (fondo claro)
+- Blanco Puro: #FFFFFF
+
+## 📝 BRAND VOICE OFICIAL
+- Tono: Profesional, calmo, seguro, educativo, premium
+- NUNCA usar: garantías, urgencia, "antes/después" explícito, diagnósticos
+- SÍ usar: orientación clínica, evaluación responsable, transparencia
+- Tagline: "Tu sonrisa, nuestra pasión"

@@ -137,6 +137,24 @@
   }
 }
 
+/* Clínica Miró Brand Colors */
+:root {
+  --miro-gold: #C4A265;
+  --miro-lilac: #9B8AA5;
+  --miro-dark: #0A0A0D;
+  --miro-cream: #FCFBF9;
+  --miro-text-dark: #1A1A1A;
+}
+
+.miro-gold { color: #C4A265; }
+.miro-lilac { color: #9B8AA5; }
+.bg-miro-gold { background-color: #C4A265; }
+.bg-miro-lilac { background-color: #9B8AA5; }
+.bg-miro-dark { background-color: #0A0A0D; }
+.bg-miro-cream { background-color: #FCFBF9; }
+.border-miro-gold { border-color: #C4A265; }
+.border-miro-lilac { border-color: #9B8AA5; }
+
 @layer components {
   /**
    * Custom container utility that centers content and adds responsive padding.
