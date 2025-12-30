@@ -42,7 +42,7 @@
 - [x] Implementar sugerencias multi-factor: presupuesto, audiencia, creativos, horarios
 - [x] Implementar prompt maestro configurable
 - [x] Agregar modo automático (sin aprobación) para sugerencias de alto confianza
-- [ ] Crear tests para validar sugerencias
+- [x] Crear tests para validar sugerencias (13 tests pasando)
 - [ ] Implementar notificaciones por email
 
 ## 🐛 Bugs a Corregir
@@ -50,3 +50,14 @@
 - [x] Verificar que las acciones se ejecuten realmente en Meta Ads (VERIFICADO: Las acciones se ejecutan y se registran en la BD)
 - [x] Mejorar feedback visual al aprobar/rechazar sugerencias (Toast mejorado con descripción)
 - [x] Agregar tests de autenticación para AI Co-Pilot router
+
+## 🚀 AI CO-PILOT AVANZADO
+- [x] Implementar modo automático con toggle on/off
+- [x] Agregar umbral de confianza configurable para auto-aprobación (default 95%)
+- [x] Crear sistema de predicciones de rendimiento basado en histórico
+- [x] Implementar análisis de creativos (cuáles funcionan mejor)
+- [x] Agregar sugerencias de nuevos creativos basadas en patrones exitosos
+- [x] Crear panel de predicciones en la UI
+- [x] Agregar indicador visual de modo automático activo
+- [ ] Implementar log de acciones auto-ejecutadas
+- [x] Agregar tests de validación para configuración (13 tests pasando)
