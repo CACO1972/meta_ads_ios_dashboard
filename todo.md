@@ -153,3 +153,25 @@
 - NUNCA usar: garantías, urgencia, "antes/después" explícito, diagnósticos
 - SÍ usar: orientación clínica, evaluación responsable, transparencia
 - Tagline: "Tu sonrisa, nuestra pasión"
+
+## 📈 INTEGRACIÓN DATOS REALES DE PACIENTES
+- [ ] Integrar datos demográficos reales (edad, género, comuna)
+- [ ] Integrar datos de medios de pago
+- [ ] Integrar datos de categorías de servicios más usados
+- [ ] Integrar datos de estado de citas
+- [ ] Actualizar análisis de públicos con datos reales
+
+## 🎨 INTEGRACIÓN CANVA
+- [x] Subir logos de Clínica Miró a biblioteca de Canva
+- [x] Buscar diseños existentes en cuenta de Canva
+- [ ] Crear endpoint para listar diseños de Canva
+- [ ] Crear endpoint para exportar diseños
+- [ ] Agregar UI para ver y seleccionar diseños
+- [ ] Integrar generación con IA cuando esté disponible
+
+## 🔐 PERSISTENCIA DE CREDENCIALES (BUG CORREGIDO)
+- [x] Diagnosticar por qué las credenciales no persisten entre sesiones (tabla no existía)
+- [x] Implementar guardado permanente de credenciales en base de datos (tabla creada)
+- [x] Implementar carga automática de credenciales al iniciar sesión (ya implementado en código)
+- [ ] Verificar que Meta API Token se guarde encriptado (pendiente)
+- [ ] Probar que las credenciales persistan después de cerrar el navegador

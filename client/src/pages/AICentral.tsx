@@ -65,6 +65,8 @@ export default function AICentral() {
   const [activeTab, setActiveTab] = useState("strategy");
   const [showStrategyDialog, setShowStrategyDialog] = useState(false);
   const [generatedStrategy, setGeneratedStrategy] = useState<any>(null);
+  const [canvaSearchQuery, setCanvaSearchQuery] = useState<string>("dental");
+  const [selectedDesignId, setSelectedDesignId] = useState<string | null>(null);
 
   // Queries
   const { data: servicesData } = trpc.aiCentral.getServices.useQuery();
@@ -73,6 +75,12 @@ export default function AICentral() {
   const { data: contentGuides, refetch: refetchGuides } = trpc.aiCentral.getContentGuides.useQuery({ status: 'all', type: 'all' });
   const { data: audienceInsights } = trpc.aiCentral.getAudienceInsights.useQuery({ platform: 'combined' });
   const { data: platformStatus } = trpc.aiCentral.getPlatformStatus.useQuery();
+  const { data: canvaStatus } = trpc.aiCentral.getCanvaStatus.useQuery();
+  const { data: canvaDesigns, refetch: refetchCanvaDesigns, isLoading: isLoadingCanva } = trpc.aiCentral.searchCanvaDesigns.useQuery(
+    { query: canvaSearchQuery, sortBy: 'relevance' },
+    { enabled: canvaSearchQuery.length > 0 }
+  );
+  const { data: canvaBrandKits } = trpc.aiCentral.getCanvaBrandKits.useQuery();
 
   // Mutations
   const generateStrategy = trpc.aiCentral.generateStrategy.useMutation({
@@ -99,6 +107,19 @@ export default function AICentral() {
     onSuccess: () => {
       refetchCampaigns();
       toast.info("Campaña rechazada");
+    },
+  });
+
+  const exportCanvaDesign = trpc.aiCentral.exportCanvaDesign.useMutation({
+    onSuccess: (data) => {
+      toast.success("Diseño exportado exitosamente");
+      // Open download URL in new tab
+      if (data.url) {
+        window.open(data.url, '_blank');
+      }
+    },
+    onError: (error) => {
+      toast.error(`Error al exportar: ${error.message}`);
     },
   });
 
@@ -233,6 +254,10 @@ export default function AICentral() {
             <TabsTrigger value="content" className="data-[state=active]:bg-green-600">
               <Video className="w-4 h-4 mr-2" />
               Guía de Producción
+            </TabsTrigger>
+            <TabsTrigger value="canva" className="data-[state=active]:bg-[#00C4CC]">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Canva
             </TabsTrigger>
           </TabsList>
 
@@ -681,6 +706,182 @@ export default function AICentral() {
                   <Video className="w-12 h-12 mx-auto mb-4 text-gray-600" />
                   <p className="text-gray-400">No hay guías de contenido</p>
                   <p className="text-sm text-gray-500 mt-1">Genera una estrategia para crear guías de producción</p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          {/* Canva Integration Tab */}
+          <TabsContent value="canva" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Canva Status Card */}
+              <Card className="bg-gray-900/50 border-gray-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#00C4CC] flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    Canva
+                  </CardTitle>
+                  <CardDescription>
+                    {canvaStatus?.connected ? 'Conectado' : 'Desconectado'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${canvaStatus?.connected ? 'bg-green-500' : 'bg-red-500'}`} />
+                    <span className="text-sm text-gray-400">
+                      {canvaStatus?.connected ? 'API conectada' : 'API desconectada'}
+                    </span>
+                  </div>
+                  {canvaStatus?.connected && (
+                    <>
+                      <div className="text-sm text-gray-400">
+                        <span className="text-white font-medium">{canvaBrandKits?.brandKits?.length || 0}</span> Brand Kits
+                      </div>
+                      <div className="text-sm text-gray-400">
+                        <span className="text-white font-medium">2</span> Logos subidos
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Search Card */}
+              <Card className="lg:col-span-2 bg-gray-900/50 border-gray-800">
+                <CardHeader>
+                  <CardTitle>Buscar Diseños</CardTitle>
+                  <CardDescription>Busca diseños existentes en tu cuenta de Canva</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Buscar diseños..."
+                      value={canvaSearchQuery}
+                      onChange={(e) => setCanvaSearchQuery(e.target.value)}
+                      className="bg-gray-800 border-gray-700"
+                    />
+                    <Button 
+                      onClick={() => refetchCanvaDesigns()}
+                      className="bg-[#00C4CC] hover:bg-[#00a8af]"
+                    >
+                      Buscar
+                    </Button>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setCanvaSearchQuery('dental')}>
+                      Dental
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => setCanvaSearchQuery('instagram')}>
+                      Instagram
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => setCanvaSearchQuery('implantes')}>
+                      Implantes
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => setCanvaSearchQuery('blanqueamiento')}>
+                      Blanqueamiento
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Designs Grid */}
+            <Card className="bg-gray-900/50 border-gray-800">
+              <CardHeader>
+                <CardTitle>Diseños Encontrados</CardTitle>
+                <CardDescription>
+                  {isLoadingCanva ? 'Buscando...' : `${canvaDesigns?.designs?.length || 0} diseños encontrados`}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoadingCanva ? (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00C4CC]"></div>
+                  </div>
+                ) : canvaDesigns?.designs && canvaDesigns.designs.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {canvaDesigns.designs.map((design: any) => (
+                      <div
+                        key={design.design_id}
+                        className={`relative group cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
+                          selectedDesignId === design.design_id
+                            ? 'border-[#00C4CC] ring-2 ring-[#00C4CC]/50'
+                            : 'border-gray-700 hover:border-gray-600'
+                        }`}
+                        onClick={() => setSelectedDesignId(design.design_id)}
+                      >
+                        <img
+                          src={design.thumbnail?.url}
+                          alt={design.title}
+                          className="w-full aspect-square object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <p className="text-sm font-medium text-white truncate">{design.title}</p>
+                            {design.page_count && (
+                              <p className="text-xs text-gray-400">{design.page_count} páginas</p>
+                            )}
+                          </div>
+                        </div>
+                        {selectedDesignId === design.design_id && (
+                          <div className="absolute top-2 right-2">
+                            <CheckCircle className="w-6 h-6 text-[#00C4CC]" />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Sparkles className="w-12 h-12 mx-auto mb-4 text-gray-600" />
+                    <p className="text-gray-400">No se encontraron diseños</p>
+                    <p className="text-sm text-gray-500 mt-1">Intenta con otra búsqueda</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Selected Design Actions */}
+            {selectedDesignId && (
+              <Card className="bg-gray-900/50 border-[#00C4CC]/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="w-5 h-5 text-[#00C4CC]" />
+                      <span className="text-sm">Diseño seleccionado</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const design = canvaDesigns?.designs?.find((d: any) => d.design_id === selectedDesignId);
+                          if (design?.edit_url) {
+                            window.open(design.edit_url, '_blank');
+                          }
+                        }}
+                      >
+                        Editar en Canva
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-[#00C4CC] hover:bg-[#00a8af]"
+                        onClick={() => exportCanvaDesign.mutate({ designId: selectedDesignId, format: 'png' })}
+                        disabled={exportCanvaDesign.isPending}
+                      >
+                        {exportCanvaDesign.isPending ? 'Exportando...' : 'Exportar PNG'}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => exportCanvaDesign.mutate({ designId: selectedDesignId, format: 'pdf' })}
+                        disabled={exportCanvaDesign.isPending}
+                      >
+                        Exportar PDF
+                      </Button>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             )}

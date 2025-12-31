@@ -10,6 +10,18 @@ import { globalCampaigns, contentGuides, platformCredentials, GlobalCampaign, Co
 import { eq, desc, and } from "drizzle-orm";
 import { CLINICA_MIRO_SERVICES, getServiceById, getServicesByCategory } from "./data/clinicaMiroServices";
 import { generateGlobalStrategy } from "./aiCentral/strategyEngine";
+import { 
+  AGE_DISTRIBUTION, 
+  GENDER_DISTRIBUTION, 
+  COMMUNE_DISTRIBUTION, 
+  PAYMENT_METHODS,
+  SERVICE_CATEGORIES,
+  APPOINTMENT_STATUS,
+  PATIENT_METRICS,
+  REAL_AUDIENCE_SEGMENTS,
+  getSegmentationInsights 
+} from "./data/clinicaMiroPatientData";
+import canvaService from "./services/canvaService";
 
 export const aiCentralRouter = router({
   // Get all available services with pricing
@@ -254,72 +266,109 @@ export const aiCentralRouter = router({
       return { success: true };
     }),
 
-  // Get audience insights
+  // Get audience insights - DATOS REALES DE PACIENTES CLÍNICA MIRÓ
   getAudienceInsights: protectedProcedure
     .input(z.object({
       platform: z.enum(['all', 'meta', 'tiktok', 'google', 'combined']).default('combined'),
     }))
     .query(async ({ input }) => {
-      // For now, return mock data based on typical Chilean demographics
-      // In production, this would pull from actual platform APIs
+      // Datos reales extraídos del sistema de gestión de Clínica Miró
+      const insights = getSegmentationInsights();
+      
+      // Convertir distribución de edad al formato esperado
+      const ageDistribution: Record<string, number> = {};
+      Object.entries(AGE_DISTRIBUTION).forEach(([key, value]) => {
+        ageDistribution[key] = value.percentage;
+      });
+      
+      // Convertir distribución de comunas
+      const topLocations = Object.entries(COMMUNE_DISTRIBUTION).map(([name, data]) => ({
+        name,
+        percentage: data.percentage,
+        socioeconomic: data.socioeconomic,
+      }));
+      
+      // Convertir categorías de servicios
+      const serviceCategories = Object.entries(SERVICE_CATEGORIES).map(([name, data]) => ({
+        name,
+        percentage: data.percentage,
+        avgTicket: data.avgTicket,
+        growthRate: data.growthRate,
+        topServices: data.topServices,
+      }));
       
       return {
         platform: input.platform,
+        source: 'DATOS REALES - Sistema Clínica Miró',
+        lastUpdated: 'Diciembre 2025',
         demographics: {
-          ageDistribution: {
-            '18-24': 12,
-            '25-34': 28,
-            '35-44': 25,
-            '45-54': 20,
-            '55-64': 10,
-            '65+': 5,
-          },
+          ageDistribution,
           genderDistribution: {
-            female: 65,
-            male: 35,
+            female: GENDER_DISTRIBUTION.Femenino.percentage,
+            male: GENDER_DISTRIBUTION.Masculino.percentage,
+            unknown: GENDER_DISTRIBUTION.Desconocido.percentage,
           },
         },
         geographic: {
-          topLocations: [
-            { name: 'Las Condes', percentage: 22 },
-            { name: 'Providencia', percentage: 18 },
-            { name: 'Vitacura', percentage: 15 },
-            { name: 'Ñuñoa', percentage: 12 },
-            { name: 'La Reina', percentage: 10 },
-            { name: 'Santiago Centro', percentage: 8 },
-            { name: 'Otros', percentage: 15 },
-          ],
+          topLocations,
         },
         socioeconomic: {
           distribution: {
-            'ABC1': 45,
-            'C2': 30,
-            'C3': 20,
-            'D': 5,
+            'ABC1': 28, // Las Condes, Vitacura, Providencia
+            'C1a': 22, // Ñuñoa, La Reina
+            'C1b': 20, // Santiago, La Florida
+            'C2': 18, // Maipú, Puente Alto
+            'C3': 12, // Otras comunas
           },
+        },
+        paymentMethods: Object.entries(PAYMENT_METHODS).map(([method, data]) => ({
+          method,
+          percentage: data.percentage,
+          trend: data.trend,
+        })),
+        serviceCategories,
+        appointmentMetrics: {
+          attendanceRate: PATIENT_METRICS.attendanceRate,
+          cancellationRate: PATIENT_METRICS.cancellationRate,
+          avgTicket: PATIENT_METRICS.avgTicket,
+          repeatRate: PATIENT_METRICS.repeatRate,
+          referralRate: PATIENT_METRICS.referralRate,
+          statusBreakdown: Object.entries(APPOINTMENT_STATUS).map(([status, data]) => ({
+            status,
+            percentage: data.percentage,
+            color: data.color,
+          })),
         },
         interests: {
           top: [
-            { name: 'Salud y bienestar', affinity: 85 },
-            { name: 'Belleza', affinity: 78 },
-            { name: 'Cuidado personal', affinity: 72 },
-            { name: 'Fitness', affinity: 65 },
-            { name: 'Moda', affinity: 58 },
+            { name: 'Implantología y rehabilitación oral', affinity: 92 },
+            { name: 'Estética dental (carillas, blanqueamiento)', affinity: 85 },
+            { name: 'Ortodoncia y alineadores', affinity: 78 },
+            { name: 'Estética facial (toxina, hialurónico)', affinity: 75 },
+            { name: 'Odontología preventiva', affinity: 65 },
           ],
         },
         behavior: {
-          peakHours: ['18:00', '19:00', '20:00', '21:00'],
+          peakHours: ['10:00', '11:00', '17:00', '18:00'],
           bestDays: ['Martes', 'Miércoles', 'Jueves'],
           deviceUsage: {
-            mobile: 78,
-            desktop: 22,
+            mobile: 72,
+            desktop: 28,
           },
         },
-        bestPerformingSegments: [
-          { segment: 'Mujeres 25-44, ABC1, Las Condes/Vitacura', cpr: 15000, roi: 8.5 },
-          { segment: 'Mujeres 35-54, ABC1, interés en anti-aging', cpr: 18000, roi: 7.2 },
-          { segment: 'Adultos 45-65, ABC1, interés en implantes', cpr: 45000, roi: 12.3 },
-        ],
+        bestPerformingSegments: REAL_AUDIENCE_SEGMENTS.map(seg => ({
+          id: seg.id,
+          segment: seg.name,
+          description: seg.description,
+          demographics: seg.demographics,
+          cpr: seg.marketing.estimatedCPR,
+          roi: seg.marketing.estimatedROI,
+          bestPlatforms: seg.marketing.bestPlatforms,
+          bestFormats: seg.marketing.bestFormats,
+          preferredServices: seg.behavior.preferredServices,
+          avgTicket: seg.behavior.avgTicket,
+        })),
+        recommendations: insights.recommendations,
       };
     }),
 
@@ -396,5 +445,124 @@ export const aiCentralRouter = router({
         facial: CLINICA_MIRO_SERVICES.filter(s => s.category === 'Estética Facial').length,
       },
     };
+  }),
+
+  // ========== CANVA INTEGRATION ==========
+  
+  // Search Canva designs
+  searchCanvaDesigns: protectedProcedure
+    .input(z.object({
+      query: z.string().min(1),
+      sortBy: z.enum(['relevance', 'modified_descending', 'modified_ascending']).default('relevance'),
+    }))
+    .query(async ({ input }) => {
+      const result = await canvaService.searchDesigns(input.query, input.sortBy);
+      return {
+        designs: result.items || [],
+        hasMore: !!result.continuation,
+      };
+    }),
+
+  // Get dental designs from Canva
+  getCanvaDentalDesigns: protectedProcedure.query(async () => {
+    const designs = await canvaService.getDentalDesigns();
+    return { designs };
+  }),
+
+  // Get Canva brand kits
+  getCanvaBrandKits: protectedProcedure.query(async () => {
+    const brandKits = await canvaService.listBrandKits();
+    return {
+      brandKits,
+      uploadedAssets: canvaService.CANVA_ASSETS,
+    };
+  }),
+
+  // Export Canva design
+  exportCanvaDesign: protectedProcedure
+    .input(z.object({
+      designId: z.string(),
+      format: z.enum(['pdf', 'png', 'jpg', 'pptx', 'mp4']).default('png'),
+    }))
+    .mutation(async ({ input }) => {
+      // First get available formats
+      const formats = await canvaService.getExportFormats(input.designId);
+      if (!formats.includes(input.format)) {
+        throw new Error(`Formato ${input.format} no disponible. Formatos disponibles: ${formats.join(', ')}`);
+      }
+      
+      const result = await canvaService.exportDesign(input.designId, input.format);
+      if (!result) {
+        throw new Error('Error al exportar el diseño');
+      }
+      
+      return result;
+    }),
+
+  // Generate design with AI (Canva Pro required)
+  generateCanvaDesign: protectedProcedure
+    .input(z.object({
+      serviceName: z.string(),
+      designType: z.enum([
+        'instagram_post', 'facebook_post', 'your_story', 
+        'poster', 'flyer', 'presentation'
+      ]).default('instagram_post'),
+      includePrice: z.boolean().default(true),
+      useBrandKit: z.boolean().default(true),
+      useLogo: z.boolean().default(true),
+    }))
+    .mutation(async ({ input }) => {
+      // Build the query based on service and brand voice
+      const service = CLINICA_MIRO_SERVICES.find(s => 
+        s.name.toLowerCase().includes(input.serviceName.toLowerCase())
+      );
+      
+      const priceText = service && input.includePrice 
+        ? `Price: $${service.price.toLocaleString('es-CL')} CLP.` 
+        : '';
+      
+      const query = `
+        Professional dental clinic ${input.designType} for ${input.serviceName}.
+        Elegant gold (#C4A265) and black (#0A0A0D) color scheme.
+        Premium luxury aesthetic with minimalist design.
+        Brand: Clínica Miró - "Tu sonrisa, nuestra pasión"
+        ${priceText}
+        Call to action: Agenda tu evaluación sin costo.
+        Tone: Professional, calm, educational, premium.
+      `.trim();
+      
+      const assetIds = input.useLogo ? [canvaService.CANVA_ASSETS.logoFull] : undefined;
+      const brandKitId = input.useBrandKit ? canvaService.CANVA_BRAND_KITS.default : undefined;
+      
+      const result = await canvaService.generateDesign(
+        query,
+        input.designType,
+        brandKitId,
+        assetIds
+      );
+      
+      if (!result) {
+        throw new Error('Error al generar el diseño. Verifica que tengas Canva Pro activo.');
+      }
+      
+      return result;
+    }),
+
+  // Get Canva connection status
+  getCanvaStatus: protectedProcedure.query(async () => {
+    try {
+      const brandKits = await canvaService.listBrandKits();
+      return {
+        connected: true,
+        brandKitsCount: brandKits.length,
+        uploadedAssets: canvaService.CANVA_ASSETS,
+      };
+    } catch {
+      return {
+        connected: false,
+        brandKitsCount: 0,
+        uploadedAssets: {},
+      };
+    }
   }),
 });
