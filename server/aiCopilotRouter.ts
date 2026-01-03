@@ -11,6 +11,7 @@ import { analyzeAdsData, SERVICES, DEFAULT_SERVICE } from "./aiCopilot/analyzer"
 import { generateSuggestions, getSuggestionsSummary, type Suggestion } from "./aiCopilot/suggestionGenerator";
 import { suggestions, suggestionApprovals, suggestionExecutions, services, aiCopilotConfig } from "../drizzle/schema";
 import { eq, desc, and } from "drizzle-orm";
+import { executeSuggestionAction, rollbackAction } from "./services/metaAdsExecutor";
 
 // Helper to get database with error handling
 async function requireDb() {
@@ -270,42 +271,33 @@ export const aiCopilotRouter = router({
       let apiResponse: unknown = null;
 
       try {
-        if (suggestion.action === 'pause_ad') {
-          // Pause the ad
-          const response = await fetch(
-            `https://graph.facebook.com/v21.0/${suggestion.targetId}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                status: 'PAUSED',
-                access_token: credentials.accessToken,
-              }),
-            }
-          );
-
-          apiResponse = await response.json();
-          executionSuccess = response.ok;
-          if (!response.ok) {
-            errorMessage = (apiResponse as { error?: { message?: string } })?.error?.message || 'Failed to pause ad';
+        // Use the Meta Ads Executor service for real execution
+        const executionResult = await executeSuggestionAction(
+          suggestion.action,
+          suggestion.targetType as 'ad' | 'adset' | 'campaign',
+          suggestion.targetId,
+          suggestion.proposedState,
+          {
+            accessToken: credentials.accessToken,
+            adAccountId: credentials.adAccountId,
           }
-        } else if (suggestion.action === 'scale_budget') {
-          // For budget scaling, we need to update the ad set budget
-          // This is a simplified version - in production, you'd need to handle different budget types
-          const proposedState = suggestion.proposedState as { dailyBudget?: number; scalePercentage?: number };
-          const newBudget = Math.round((proposedState.dailyBudget || 0) * 100); // Convert to cents
+        );
 
-          // Note: Budget is set at adset level, not ad level
-          // This would need the adset_id which we'd need to fetch
-          executionSuccess = true; // Simplified for now
-          apiResponse = { note: 'Budget scaling requires manual action in Meta Ads Manager for now' };
-        } else {
-          // Other actions require manual execution
-          executionSuccess = true;
-          apiResponse = { note: 'This action requires manual execution in Meta Ads Manager' };
-        }
+        executionSuccess = executionResult.success;
+        errorMessage = executionResult.error || null;
+        apiResponse = {
+          action: executionResult.action,
+          targetId: executionResult.targetId,
+          targetType: executionResult.targetType,
+          previousState: executionResult.previousState,
+          newState: executionResult.newState,
+          metaApiResponse: executionResult.metaApiResponse,
+        };
+
+        console.log(`[AI Co-Pilot] Action ${suggestion.action} on ${suggestion.targetId}: ${executionSuccess ? 'SUCCESS' : 'FAILED'}`);
       } catch (error) {
         errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error(`[AI Co-Pilot] Execution error:`, error);
       }
 
       // Record execution

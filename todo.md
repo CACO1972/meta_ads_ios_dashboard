@@ -175,3 +175,14 @@
 - [x] Implementar carga automática de credenciales al iniciar sesión (ya implementado en código)
 - [ ] Verificar que Meta API Token se guarde encriptado (pendiente)
 - [ ] Probar que las credenciales persistan después de cerrar el navegador
+
+## 🚀 EJECUCIÓN REAL DE ACCIONES META ADS
+- [x] Crear servicio de ejecución de acciones Meta Ads (metaAdsExecutor.ts)
+- [x] Implementar acción: pausar anuncio (POST /{ad-id} status=PAUSED)
+- [x] Implementar acción: activar anuncio (POST /{ad-id} status=ACTIVE)
+- [x] Implementar acción: cambiar presupuesto de adset
+- [x] Implementar acción: cambiar presupuesto de campaña
+- [x] Integrar ejecución en flujo de aprobación de sugerencias
+- [x] Agregar manejo de errores y logging
+- [x] Implementar rollback en caso de fallo
+- [x] Tests unitarios (11 tests pasando)

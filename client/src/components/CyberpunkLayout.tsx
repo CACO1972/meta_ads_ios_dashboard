@@ -58,16 +58,18 @@ export default function CyberpunkLayout({ children }: CyberpunkLayoutProps) {
               {navItems.map((item) => {
                 const isActive = location === item.href;
                 return (
-                  <Link key={item.href} href={item.href}>
-                    <a className={cn(
+                  <Link 
+                    key={item.href} 
+                    href={item.href}
+                    className={cn(
                       "flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-wide transition-all duration-200 border-l-2",
                       isActive 
                         ? "bg-primary/10 border-primary text-primary shadow-[0_0_10px_rgba(0,255,255,0.2)]" 
                         : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50 hover:border-muted-foreground"
-                    )}>
-                      <item.icon className={cn("h-4 w-4", isActive && "animate-pulse")} />
-                      {item.label}
-                    </a>
+                    )}
+                  >
+                    <item.icon className={cn("h-4 w-4", isActive && "animate-pulse")} />
+                    {item.label}
                   </Link>
                 );
               })}
