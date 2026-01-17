@@ -363,3 +363,182 @@ export const audienceInsights = mysqlTable("audienceInsights", {
 
 export type AudienceInsight = typeof audienceInsights.$inferSelect;
 export type InsertAudienceInsight = typeof audienceInsights.$inferInsert;
+
+/**
+ * Dentalink CRM Credentials table
+ * Stores credentials for Dentalink API integration
+ */
+export const dentalinkCredentials = mysqlTable("dentalinkCredentials", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id).unique(),
+  
+  apiToken: text("apiToken").notNull(),
+  
+  isActive: boolean("isActive").default(true).notNull(),
+  lastSyncAt: timestamp("lastSyncAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DentalinkCredentials = typeof dentalinkCredentials.$inferSelect;
+export type InsertDentalinkCredentials = typeof dentalinkCredentials.$inferInsert;
+
+/**
+ * Dentalink Patients table
+ * Stores synchronized patients from Dentalink CRM
+ */
+export const dentalinkPatients = mysqlTable("dentalinkPatients", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Dentalink patient data
+  dentalinkId: int("dentalinkId").notNull(),
+  nombre: varchar("nombre", { length: 255 }).notNull(),
+  apellidos: varchar("apellidos", { length: 255 }).notNull(),
+  rut: varchar("rut", { length: 20 }).notNull(),
+  email: varchar("email", { length: 320 }),
+  celular: varchar("celular", { length: 20 }),
+  telefono: varchar("telefono", { length: 20 }),
+  fechaNacimiento: varchar("fechaNacimiento", { length: 10 }), // YYYY-MM-DD
+  sexo: mysqlEnum("sexo", ["M", "F"]),
+  direccion: text("direccion"),
+  comuna: varchar("comuna", { length: 100 }),
+  ciudad: varchar("ciudad", { length: 100 }),
+  
+  // Timestamps from Dentalink
+  dentalinkCreatedAt: timestamp("dentalinkCreatedAt"),
+  dentalinkUpdatedAt: timestamp("dentalinkUpdatedAt"),
+  
+  // Sync tracking
+  lastSyncAt: timestamp("lastSyncAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DentalinkPatient = typeof dentalinkPatients.$inferSelect;
+export type InsertDentalinkPatient = typeof dentalinkPatients.$inferInsert;
+
+/**
+ * Lead to Patient Conversion table
+ * Tracks conversion from Meta Ads lead to Dentalink patient
+ */
+export const leadToPatientConversions = mysqlTable("leadToPatientConversions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Lead information (from Meta Ads)
+  leadId: varchar("leadId", { length: 255 }).notNull(),
+  leadName: varchar("leadName", { length: 255 }),
+  leadPhone: varchar("leadPhone", { length: 20 }),
+  leadEmail: varchar("leadEmail", { length: 320 }),
+  leadSource: varchar("leadSource", { length: 100 }), // "meta", "tiktok", "google"
+  campaignId: varchar("campaignId", { length: 255 }),
+  campaignName: varchar("campaignName", { length: 255 }),
+  adId: varchar("adId", { length: 255 }),
+  adName: varchar("adName", { length: 255 }),
+  leadCreatedAt: timestamp("leadCreatedAt"),
+  
+  // Patient information (from Dentalink)
+  patientId: int("patientId").references(() => dentalinkPatients.id),
+  dentalinkPatientId: int("dentalinkPatientId"),
+  
+  // Conversion tracking
+  conversionStatus: mysqlEnum("conversionStatus", [
+    "pending",        // Lead received, not yet matched
+    "matched",        // Matched to existing patient
+    "converted",      // New patient created in Dentalink
+    "appointment_scheduled", // Appointment scheduled
+    "treatment_started",     // Treatment started
+    "treatment_completed",   // Treatment completed
+    "lost"            // Lead lost (no conversion)
+  ]).default("pending").notNull(),
+  
+  // Matching confidence (0-1)
+  matchingConfidence: decimal("matchingConfidence", { precision: 5, scale: 2 }),
+  matchingMethod: varchar("matchingMethod", { length: 50 }), // "phone", "email", "rut", "manual"
+  
+  // Conversion metrics
+  daysToConversion: int("daysToConversion"), // Days from lead to patient
+  appointmentDate: timestamp("appointmentDate"),
+  treatmentValue: decimal("treatmentValue", { precision: 15, scale: 2 }), // Total treatment value
+  paidAmount: decimal("paidAmount", { precision: 15, scale: 2 }), // Amount paid
+  
+  // Notes
+  notes: text("notes"),
+  
+  // Timestamps
+  matchedAt: timestamp("matchedAt"),
+  convertedAt: timestamp("convertedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type LeadToPatientConversion = typeof leadToPatientConversions.$inferSelect;
+export type InsertLeadToPatientConversion = typeof leadToPatientConversions.$inferInsert;
+
+/**
+ * Dentalink Appointments table
+ * Stores synchronized appointments from Dentalink CRM
+ */
+export const dentalinkAppointments = mysqlTable("dentalinkAppointments", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Dentalink appointment data
+  dentalinkId: int("dentalinkId").notNull(),
+  patientId: int("patientId").references(() => dentalinkPatients.id),
+  dentalinkPatientId: int("dentalinkPatientId").notNull(),
+  dentistId: int("dentistId"),
+  sucursalId: int("sucursalId"),
+  estadoId: int("estadoId"),
+  
+  fecha: varchar("fecha", { length: 10 }).notNull(), // YYYY-MM-DD
+  horaInicio: varchar("horaInicio", { length: 5 }).notNull(), // HH:MM
+  duracion: int("duracion").notNull(), // minutes
+  comentarios: text("comentarios"),
+  
+  estadoNombre: varchar("estadoNombre", { length: 100 }),
+  estadoColor: varchar("estadoColor", { length: 20 }),
+  
+  // Sync tracking
+  lastSyncAt: timestamp("lastSyncAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DentalinkAppointment = typeof dentalinkAppointments.$inferSelect;
+export type InsertDentalinkAppointment = typeof dentalinkAppointments.$inferInsert;
+
+/**
+ * Dentalink Treatments table
+ * Stores synchronized treatments from Dentalink CRM
+ */
+export const dentalinkTreatments = mysqlTable("dentalinkTreatments", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Dentalink treatment data
+  dentalinkId: int("dentalinkId").notNull(),
+  patientId: int("patientId").references(() => dentalinkPatients.id),
+  dentalinkPatientId: int("dentalinkPatientId").notNull(),
+  dentistId: int("dentistId"),
+  sucursalId: int("sucursalId"),
+  
+  nombre: varchar("nombre", { length: 255 }).notNull(),
+  fecha: varchar("fecha", { length: 10 }).notNull(), // YYYY-MM-DD
+  finalizado: boolean("finalizado").default(false).notNull(),
+  expirado: boolean("expirado").default(false).notNull(),
+  bloqueado: boolean("bloqueado").default(false).notNull(),
+  
+  total: decimal("total", { precision: 15, scale: 2 }).notNull(),
+  pagado: decimal("pagado", { precision: 15, scale: 2 }).notNull(),
+  saldo: decimal("saldo", { precision: 15, scale: 2 }).notNull(),
+  
+  // Sync tracking
+  lastSyncAt: timestamp("lastSyncAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DentalinkTreatment = typeof dentalinkTreatments.$inferSelect;
+export type InsertDentalinkTreatment = typeof dentalinkTreatments.$inferInsert;

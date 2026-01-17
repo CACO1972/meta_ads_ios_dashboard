@@ -9,6 +9,8 @@ import Settings from "./pages/Settings";
 import AICopilot from "./pages/AICopilot";
 import AICopilotConfig from "./pages/AICopilotConfig";
 import AICentral from "./pages/AICentral";
+import DentalinkSettings from "./pages/DentalinkSettings";
+import DentalinkConversions from "./pages/DentalinkConversions";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -19,6 +21,8 @@ function Router() {
       <Route path={"/ai-copilot"} component={AICopilot} />
       <Route path={"/ai-copilot/config"} component={AICopilotConfig} />
       <Route path={"/ai-central"} component={AICentral} />
+      <Route path={"/dentalink-settings"} component={DentalinkSettings} />
+      <Route path={"/dentalink-conversions"} component={DentalinkConversions} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

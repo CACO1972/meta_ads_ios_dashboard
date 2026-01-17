@@ -186,3 +186,52 @@
 - [x] Agregar manejo de errores y logging
 - [x] Implementar rollback en caso de fallo
 - [x] Tests unitarios (11 tests pasando)
+
+## 🎯 GOOGLE POMELLI (Herramienta de IA de Google)
+- [ ] Investigar integración con Pomelli API (si existe)
+- [ ] Evaluar si Pomelli puede generar assets automáticamente para campañas
+- [ ] Documentar flujo: Dashboard → Pomelli → Assets → Campañas
+
+## 🔴 GOOGLE ADS API INTEGRATION
+- [ ] Crear cuenta de servicio en Google Cloud Console
+- [ ] Habilitar Google Ads API
+- [ ] Implementar autenticación OAuth 2.0
+- [ ] Crear servicio de lectura de campañas Google Ads
+- [ ] Crear servicio de creación/modificación de campañas
+- [ ] Implementar lectura de métricas (impresiones, clicks, conversiones, CPC)
+- [ ] Agregar UI para configurar credenciales de Google Ads
+- [ ] Integrar en AI Central para estrategias multi-plataforma
+- [ ] Tests unitarios para Google Ads service
+
+## 🎵 TIKTOK ADS API INTEGRATION
+- [ ] Crear app en TikTok for Business
+- [ ] Implementar autenticación OAuth 2.0 de TikTok
+- [ ] Crear servicio de lectura de campañas TikTok Ads
+- [ ] Crear servicio de creación/modificación de campañas
+- [ ] Implementar lectura de métricas (views, engagement, conversiones)
+- [ ] Agregar UI para configurar credenciales de TikTok Ads
+- [ ] Integrar en AI Central para estrategias multi-plataforma
+- [ ] Tests unitarios para TikTok Ads service
+
+## 🌐 DASHBOARD MULTI-PLATAFORMA UNIFICADO
+- [ ] Crear vista consolidada de todas las plataformas (Meta + Google + TikTok)
+- [ ] Comparativa de rendimiento cross-platform
+- [ ] Recomendaciones de redistribución de presupuesto entre plataformas
+- [ ] Alertas unificadas de todas las plataformas
+
+## 🦷 DENTALINK CRM INTEGRATION
+- [x] Revisar documentación de Dentalink API (https://api.dentalink.healthatom.com/docs/)
+- [x] Crear servicio de autenticación Dentalink (API Key)
+- [x] Implementar endpoint para obtener lista de pacientes
+- [x] Implementar endpoint para obtener citas agendadas
+- [x] Implementar endpoint para obtener tratamientos completados
+- [x] Crear tabla en BD para sincronización de pacientes (dentalinkPatients)
+- [x] Crear tabla en BD para rastreo de conversiones (leadToPatientConversions)
+- [x] Implementar sincronización automática de pacientes (cada 1 hora)
+- [x] Crear UI de configuración de credenciales Dentalink
+- [ ] Implementar matching de leads (WhatsApp/Meta) con pacientes (Dentalink)
+- [x] Crear dashboard de conversiones: Lead → Paciente → Tratamiento
+- [x] Calcular ROI real basado en tratamientos completados
+- [x] Agregar métricas: Tasa de conversión Lead→Paciente, Valor promedio de tratamiento
+- [ ] Implementar alertas de seguimiento (lead sin convertir en 7 días)
+- [ ] Tests unitarios para Dentalink service
