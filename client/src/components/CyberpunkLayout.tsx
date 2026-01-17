@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { BarChart3, ShieldAlert, Target, Activity, Settings, Menu, X, Brain } from "lucide-react";
+import { BarChart3, ShieldAlert, Target, Activity, Settings, Menu, X, Brain, Building2, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +19,8 @@ export default function CyberpunkLayout({ children }: CyberpunkLayoutProps) {
     { href: "/ios-audit", label: "iOS AUDIT", icon: ShieldAlert },
     { href: "/campaigns", label: "CAMPAIGNS", icon: Target },
     { href: "/performance", label: "PERFORMANCE", icon: Activity },
+    { href: "/dentalink-settings", label: "DENTALINK CRM", icon: Building2 },
+    { href: "/dentalink-conversions", label: "CONVERSIONES", icon: TrendingUp },
     { href: "/settings", label: "SYSTEM", icon: Settings },
   ];
 

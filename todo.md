@@ -235,3 +235,7 @@
 - [x] Agregar métricas: Tasa de conversión Lead→Paciente, Valor promedio de tratamiento
 - [ ] Implementar alertas de seguimiento (lead sin convertir en 7 días)
 - [ ] Tests unitarios para Dentalink service
+
+## 🔧 NAVIGATION FIX
+- [x] Agregar opciones de Dentalink al menú de CyberpunkLayout
+- [x] Verificar que las rutas /dentalink-settings y /dentalink-conversions sean accesibles desde el menú
