@@ -239,3 +239,17 @@
 ## 🔧 NAVIGATION FIX
 - [x] Agregar opciones de Dentalink al menú de CyberpunkLayout
 - [x] Verificar que las rutas /dentalink-settings y /dentalink-conversions sean accesibles desde el menú
+
+## 🧠 MATCHING INTELIGENTE (LEAD → PACIENTE)
+- [x] Crear tabla `metaAdsLeads` en BD (nombre, apellido, email, teléfono, campaignId, adId, timestamp)
+- [x] Crear tabla `leadPatientMatches` en BD (leadId, patientId, matchScore, matchMethod, status)
+- [x] Implementar normalización de teléfonos chilenos (+56, espacios, guiones)
+- [x] Implementar algoritmo de similitud fuzzy para nombres (Levenshtein distance)
+- [x] Crear servicio de matching con scoring (email=100%, teléfono=90%, nombre=70-85%)
+- [x] Implementar matching automático al sincronizar pacientes
+- [ ] Crear endpoint tRPC para ejecutar matching manual
+- [ ] Crear endpoint tRPC para obtener ROI por campaña
+- [ ] Crear endpoint tRPC para obtener ROI por anuncio
+- [ ] Crear UI de dashboard de atribución con ROI por campaña/anuncio
+- [ ] Visualizar métricas: Total leads, matches confirmados, revenue total, ROI promedio
+- [ ] Tests unitarios para algoritmo de matching (email, teléfono, nombre fuzzy)

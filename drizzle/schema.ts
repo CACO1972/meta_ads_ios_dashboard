@@ -542,3 +542,70 @@ export const dentalinkTreatments = mysqlTable("dentalinkTreatments", {
 
 export type DentalinkTreatment = typeof dentalinkTreatments.$inferSelect;
 export type InsertDentalinkTreatment = typeof dentalinkTreatments.$inferInsert;
+
+/**
+ * Meta Ads Leads table
+ * Stores leads from Meta Ads campaigns for matching with Dentalink patients
+ */
+export const metaAdsLeads = mysqlTable("metaAdsLeads", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Lead contact information
+  nombre: varchar("nombre", { length: 100 }),
+  apellido: varchar("apellido", { length: 100 }),
+  email: varchar("email", { length: 255 }),
+  telefono: varchar("telefono", { length: 50 }),
+  
+  // Meta Ads campaign data
+  campaignId: varchar("campaignId", { length: 100 }),
+  campaignName: varchar("campaignName", { length: 255 }),
+  adId: varchar("adId", { length: 100 }),
+  adName: varchar("adName", { length: 255 }),
+  adsetId: varchar("adsetId", { length: 100 }),
+  adsetName: varchar("adsetName", { length: 255 }),
+  
+  // Cost data
+  costPerResult: decimal("costPerResult", { precision: 15, scale: 2 }),
+  spend: decimal("spend", { precision: 15, scale: 2 }),
+  
+  // Lead timestamp
+  leadTimestamp: timestamp("leadTimestamp").notNull(),
+  
+  // Tracking
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MetaAdsLead = typeof metaAdsLeads.$inferSelect;
+export type InsertMetaAdsLead = typeof metaAdsLeads.$inferInsert;
+
+/**
+ * Lead Patient Matches table
+ * Stores matches between Meta Ads leads and Dentalink patients with confidence scoring
+ */
+export const leadPatientMatches = mysqlTable("leadPatientMatches", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Match relationship
+  leadId: int("leadId").notNull().references(() => metaAdsLeads.id),
+  patientId: int("patientId").notNull().references(() => dentalinkPatients.id),
+  
+  // Match scoring
+  matchScore: int("matchScore").notNull(), // 0-100
+  matchMethod: varchar("matchMethod", { length: 50 }).notNull(), // 'email', 'phone', 'name_fuzzy'
+  matchDetails: json("matchDetails"), // Store detailed match info
+  
+  // Match status
+  status: varchar("status", { length: 20 }).default("pending").notNull(), // 'pending', 'confirmed', 'rejected'
+  reviewedAt: timestamp("reviewedAt"),
+  reviewedBy: int("reviewedBy").references(() => users.id),
+  
+  // Tracking
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type LeadPatientMatch = typeof leadPatientMatches.$inferSelect;
+export type InsertLeadPatientMatch = typeof leadPatientMatches.$inferInsert;
