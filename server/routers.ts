@@ -6,6 +6,7 @@ import { metaAdsRouter } from "./metaAdsRouter";
 import { aiCopilotRouter } from "./aiCopilotRouter";
 import { aiCentralRouter } from "./aiCentralRouter";
 import { dentalinkRouter } from "./routers/dentalink";
+import { reportsRouter } from "./routers/reports";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -14,6 +15,7 @@ export const appRouter = router({
   aiCopilot: aiCopilotRouter,
   aiCentral: aiCentralRouter,
   dentalink: dentalinkRouter,
+  reports: reportsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

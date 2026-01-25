@@ -253,3 +253,16 @@
 - [ ] Crear UI de dashboard de atribución con ROI por campaña/anuncio
 - [ ] Visualizar métricas: Total leads, matches confirmados, revenue total, ROI promedio
 - [ ] Tests unitarios para algoritmo de matching (email, teléfono, nombre fuzzy)
+
+## 📊 SISTEMA DE REPORTES
+- [x] Verificar integración de Meta Ads API y credenciales del usuario
+- [x] Crear servicio de generación de reportes (reportService.ts)
+- [x] Implementar cálculo de métricas clave (CPR, ROAS, CTR, Conversiones)
+- [x] Crear endpoint tRPC para obtener resumen de campañas activas
+- [x] Crear endpoint tRPC para generar reporte completo
+- [x] Diseñar UI de dashboard de resumen (métricas principales, gráficos)
+- [ ] Implementar generador de reportes PDF descargables
+- [ ] Implementar generador de reportes Excel descargables
+- [ ] Agregar filtros de fecha (últimos 7/30/90 días, personalizado)
+- [ ] Agregar comparación de períodos (vs período anterior)
+- [ ] Tests del sistema de reportes
