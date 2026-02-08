@@ -294,3 +294,11 @@
 - [ ] Regla 5: Protección anti-Meta (gasto > promedio 7d + 40%)
 - [ ] Regla 6: Ventana de aprendizaje protegida (no pausar < 72h)
 - [ ] Regla 7: CPR dinámico (promedio 7d + desviación estándar)
+
+## 🔧 ARREGLAR PERSISTENCIA DE CREDENCIALES
+- [x] Diagnosticar por qué las credenciales de Meta Ads se pierden al recargar
+- [x] Verificar tabla metaAdsCredentials en BD
+- [x] Corregir endpoint de guardado de credenciales
+- [x] Corregir endpoint de lectura de credenciales
+- [x] Verificar que las credenciales se encriptan correctamente
+- [x] Probar guardado y carga de credenciales

@@ -1,0 +1,19 @@
+{
+  "query": "SHOW TABLES LIKE 'metaAdsCredentials'; SELECT * FROM metaAdsCredentials LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SHOW TABLES LIKE 'metaAdsCredentials'; SELECT * FROM metaAdsCredentials LIMIT 5;",
+  "rows": [
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH (metaAdsCredentials)": "metaAdsCredentials"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH (metaAdsCredentials)": "id\tuserId\tappId\tappSecret\taccessToken\tadAccountId\tcreatedAt\tupdatedAt"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH (metaAdsCredentials)": "30002\t1\t827057756116616\t df6cc7947a56ef06ec700927ad67b441\tEAALwNGPDFogBQfUZCiV9YBlF6MzVCO2MY6E75mKZBownGmlhkgGpt8Wdnu2k1nUlE0VPCs7ZBsBCN9vcodfPsAYqV7LTyNKaCSNiYT2qDuw7Jblg8je8ZC1ZBCXCx4VvhdOs6QSbAeKNL45CBqZA4oPZBiYssq4Nts1Dww3AKQOJR8ZB0uiDKyOn9wZCQoorj5bwZD\tact_25612728\t2025-12-30 07:27:25\t2025-12-30 07:27:25"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_VzYMFKVbkzbWqmFdygxesH (metaAdsCredentials)\nmetaAdsCredentials\nid\tuserId\tappId\tappSecret\taccessToken\tadAccountId\tcreatedAt\tupdatedAt\n30002\t1\t827057756116616\t df6cc7947a56ef06ec700927ad67b441\tEAALwNGPDFogBQfUZCiV9YBlF6MzVCO2MY6E75mKZBownGmlhkgGpt8Wdnu2k1nUlE0VPCs7ZBsBCN9vcodfPsAYqV7LTyNKaCSNiYT2qDuw7Jblg8je8ZC1ZBCXCx4VvhdOs6QSbAeKNL45CBqZA4oPZBiYssq4Nts1Dww3AKQOJR8ZB0uiDKyOn9wZCQoorj5bwZD\tact_25612728\t2025-12-30 07:27:25\t2025-12-30 07:27:25\n",
+  "stderr": "",
+  "execution_time_ms": 459
+}

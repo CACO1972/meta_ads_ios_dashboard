@@ -5,17 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trpc } from "@/lib/trpc";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Key, Shield, CheckCircle2, AlertCircle } from "lucide-react";
+import { Key, Shield, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 export default function Settings() {
   const { user } = useAuth();
-  const [appId, setAppId] = useState("827057756116616");
+  const [appId, setAppId] = useState("");
   const [appSecret, setAppSecret] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [adAccountId, setAdAccountId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isConfigured, setIsConfigured] = useState(false);
+
+  // Load existing credentials
+  const { data: credentialsData, isLoading: isLoadingCredentials } = trpc.metaAds.getCredentials.useQuery();
+
+  useEffect(() => {
+    if (credentialsData?.configured) {
+      setIsConfigured(true);
+      setAppId(credentialsData.appId || "");
+      setAdAccountId(credentialsData.adAccountId || "");
+      // Don't set appSecret and accessToken for security (they're not returned from backend)
+    }
+  }, [credentialsData]);
 
   const saveCredentials = trpc.metaAds.saveCredentials.useMutation({
     onSuccess: () => {
@@ -86,14 +99,28 @@ export default function Settings() {
             SYSTEM CONFIGURATION
           </h1>
           <p className="text-muted-foreground font-mono mt-1">
-            META ADS API CREDENTIALS | STATUS: <span className="text-destructive">NOT CONFIGURED</span>
+            META ADS API CREDENTIALS | STATUS: {isLoadingCredentials ? (
+              <span className="text-primary">LOADING...</span>
+            ) : isConfigured ? (
+              <span className="text-green-500">CONFIGURED ✓</span>
+            ) : (
+              <span className="text-destructive">NOT CONFIGURED</span>
+            )}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Form */}
           <div className="lg:col-span-2">
-            <CyberCard title="META ADS API CREDENTIALS">
+            {isLoadingCredentials ? (
+              <CyberCard title="META ADS API CREDENTIALS">
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  <span className="ml-3 text-muted-foreground font-mono">Loading credentials...</span>
+                </div>
+              </CyberCard>
+            ) : (
+              <CyberCard title="META ADS API CREDENTIALS">
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="appId" className="text-xs font-orbitron text-muted-foreground uppercase tracking-wider">
@@ -181,7 +208,8 @@ export default function Settings() {
                   </Button>
                 </div>
               </div>
-            </CyberCard>
+              </CyberCard>
+            )}
           </div>
 
           {/* Info Panel */}
