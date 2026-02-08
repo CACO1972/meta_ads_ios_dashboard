@@ -266,3 +266,31 @@
 - [ ] Agregar filtros de fecha (últimos 7/30/90 días, personalizado)
 - [ ] Agregar comparación de períodos (vs período anterior)
 - [ ] Tests del sistema de reportes
+
+## 🤖 SISTEMA DE AUTOMATIZACIÓN INTELIGENTE
+- [x] Diseñar arquitectura del Rule Engine (motor de reglas)
+- [x] Crear tabla en BD para almacenar reglas personalizables
+- [x] Crear tabla en BD para logs de decisiones automáticas
+- [x] Implementar motor de evaluación de condiciones (CPR, gasto, conversiones)
+- [ ] Implementar acciones automáticas: pausar campañas
+- [ ] Implementar acciones automáticas: escalar presupuesto (+20%)
+- [ ] Implementar acciones automáticas: reducir presupuesto (-10%)
+- [ ] Implementar protección anti-gasto excesivo (límite diario)
+- [ ] Crear servicio de notificaciones por email
+- [ ] Crear servicio de notificaciones por WhatsApp (opcional)
+- [ ] Implementar scheduler (cron) para ejecutar reglas cada hora
+- [ ] Crear UI de configuración de reglas (umbrales, acciones, canales)
+- [ ] Implementar modo simulación ("qué habría pasado si...")
+- [ ] Crear dashboard de decisiones automáticas (log visual)
+- [ ] Implementar kill switch (botón de emergencia: PARAR TODO)
+- [ ] Tests unitarios para Rule Engine
+- [ ] Tests de integración para acciones automáticas
+
+### Reglas Predefinidas (Nivel Profesional)
+- [ ] Regla 1: Pausar campañas con CPR > umbral durante 3 días
+- [ ] Regla 2: Escalar campañas con CPR < objetivo y conversiones > N
+- [ ] Regla 3: Redistribuir presupuesto diario entre top 20% campañas
+- [ ] Regla 4: Alertas de CPR crítico (solo cuando importa, no spam)
+- [ ] Regla 5: Protección anti-Meta (gasto > promedio 7d + 40%)
+- [ ] Regla 6: Ventana de aprendizaje protegida (no pausar < 72h)
+- [ ] Regla 7: CPR dinámico (promedio 7d + desviación estándar)

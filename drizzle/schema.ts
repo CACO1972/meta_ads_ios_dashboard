@@ -609,3 +609,109 @@ export const leadPatientMatches = mysqlTable("leadPatientMatches", {
 
 export type LeadPatientMatch = typeof leadPatientMatches.$inferSelect;
 export type InsertLeadPatientMatch = typeof leadPatientMatches.$inferInsert;
+
+/**
+ * Automation Rules table
+ * Stores user-defined automation rules for campaign optimization
+ */
+export const automationRules = mysqlTable("automationRules", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Rule configuration
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  ruleType: varchar("ruleType", { length: 50 }).notNull(), // 'pause_high_cpr', 'scale_winner', 'redistribute_budget', 'alert_only'
+  
+  // Condition configuration (JSON)
+  conditions: json("conditions").notNull(), // { metric: 'cpr', operator: '>', threshold: 50, duration: '3d' }
+  
+  // Action configuration (JSON)
+  actions: json("actions").notNull(), // { type: 'pause_campaign', notify: true, channels: ['email', 'dashboard'] }
+  
+  // Rule status
+  isActive: boolean("isActive").default(true).notNull(),
+  priority: int("priority").default(0).notNull(), // Higher priority rules execute first
+  
+  // Execution settings
+  cooldownHours: int("cooldownHours").default(24), // Minimum hours between executions
+  lastExecutedAt: timestamp("lastExecutedAt"),
+  executionCount: int("executionCount").default(0).notNull(),
+  
+  // Tracking
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AutomationRule = typeof automationRules.$inferSelect;
+export type InsertAutomationRule = typeof automationRules.$inferInsert;
+
+/**
+ * Automation Logs table
+ * Records all automated decisions and actions taken by the system
+ */
+export const automationLogs = mysqlTable("automationLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  ruleId: int("ruleId").references(() => automationRules.id),
+  
+  // Campaign affected
+  campaignId: varchar("campaignId", { length: 100 }),
+  campaignName: varchar("campaignName", { length: 255 }),
+  
+  // Decision details
+  ruleType: varchar("ruleType", { length: 50 }).notNull(),
+  conditionsMet: json("conditionsMet").notNull(), // What triggered the rule
+  actionTaken: varchar("actionTaken", { length: 100 }).notNull(), // 'paused', 'scaled_up', 'scaled_down', 'alert_sent'
+  actionDetails: json("actionDetails"), // Detailed action info
+  
+  // Metrics at decision time
+  metricsSnapshot: json("metricsSnapshot"), // CPR, spend, conversions, etc.
+  
+  // Execution result
+  success: boolean("success").notNull(),
+  errorMessage: text("errorMessage"),
+  
+  // Simulation mode
+  isSimulation: boolean("isSimulation").default(false).notNull(),
+  
+  // Tracking
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AutomationLog = typeof automationLogs.$inferSelect;
+export type InsertAutomationLog = typeof automationLogs.$inferInsert;
+
+/**
+ * Campaign Performance Snapshots table
+ * Stores historical performance data for trend analysis
+ */
+export const campaignSnapshots = mysqlTable("campaignSnapshots", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  // Campaign identification
+  campaignId: varchar("campaignId", { length: 100 }).notNull(),
+  campaignName: varchar("campaignName", { length: 255 }),
+  objective: varchar("objective", { length: 100 }),
+  
+  // Performance metrics
+  spend: decimal("spend", { precision: 15, scale: 2 }),
+  impressions: int("impressions"),
+  clicks: int("clicks"),
+  results: int("results"),
+  cpr: decimal("cpr", { precision: 15, scale: 2 }),
+  ctr: decimal("ctr", { precision: 10, scale: 4 }),
+  cpc: decimal("cpc", { precision: 15, scale: 2 }),
+  
+  // Calculated metrics
+  cprTrend: varchar("cprTrend", { length: 20 }), // 'improving', 'stable', 'degrading'
+  performanceScore: int("performanceScore"), // 0-100
+  
+  // Snapshot metadata
+  snapshotDate: varchar("snapshotDate", { length: 10 }).notNull(), // YYYY-MM-DD format
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type CampaignSnapshot = typeof campaignSnapshots.$inferSelect;
+export type InsertCampaignSnapshot = typeof campaignSnapshots.$inferInsert;
