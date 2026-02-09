@@ -272,9 +272,9 @@
 - [x] Crear tabla en BD para almacenar reglas personalizables
 - [x] Crear tabla en BD para logs de decisiones automáticas
 - [x] Implementar motor de evaluación de condiciones (CPR, gasto, conversiones)
-- [ ] Implementar acciones automáticas: pausar campañas
-- [ ] Implementar acciones automáticas: escalar presupuesto (+20%)
-- [ ] Implementar acciones automáticas: reducir presupuesto (-10%)
+- [x] Implementar acciones automáticas: pausar campañas
+- [x] Implementar acciones automáticas: escalar presupuesto (+20%)
+- [x] Implementar acciones automáticas: reducir presupuesto (-10%)
 - [ ] Implementar protección anti-gasto excesivo (límite diario)
 - [ ] Crear servicio de notificaciones por email
 - [ ] Crear servicio de notificaciones por WhatsApp (opcional)
