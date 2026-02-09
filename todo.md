@@ -302,3 +302,12 @@
 - [x] Corregir endpoint de lectura de credenciales
 - [x] Verificar que las credenciales se encriptan correctamente
 - [x] Probar guardado y carga de credenciales
+
+## 📧 SISTEMA DE NOTIFICACIONES POR EMAIL
+- [x] Crear servicio de envío de emails (emailService.ts)
+- [x] Crear plantillas de email para acciones críticas
+- [x] Integrar notificaciones con automationActions
+- [ ] Crear endpoint tRPC para configurar email de notificaciones
+- [ ] Crear UI de configuración de notificaciones
+- [ ] Implementar resumen diario de acciones
+- [ ] Tests de envío de notificaciones

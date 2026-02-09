@@ -2,6 +2,7 @@ import { pauseCampaign, changeCampaignBudget } from './metaAdsExecutor';
 import { getDb } from '../db';
 import { metaAdsCredentials } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { emailNotificationService } from './emailNotificationService';
 
 /**
  * Servicio de Acciones Automáticas para Meta Ads
@@ -86,6 +87,17 @@ export class AutomationActionsService {
       // Llamar a la función de metaAdsExecutor
       const result = await pauseCampaign(campaignId, credentials);
       
+      // Enviar notificación por email si la acción fue exitosa
+      if (result.success) {
+        await emailNotificationService.notifyCampaignPaused({
+          action: 'pause',
+          campaignId,
+          campaignName,
+          reason,
+          timestamp: new Date(),
+        });
+      }
+      
       return {
         success: result.success,
         action: 'pause',
@@ -134,6 +146,19 @@ export class AutomationActionsService {
 
       // Llamar a la función de metaAdsExecutor
       const result = await changeCampaignBudget(campaignId, newBudget, credentials);
+      
+      // Enviar notificación por email si la acción fue exitosa
+      if (result.success) {
+        await emailNotificationService.notifyBudgetScaled({
+          action: 'scale_budget',
+          campaignId,
+          campaignName,
+          reason,
+          previousValue: currentBudget,
+          newValue: newBudget,
+          timestamp: new Date(),
+        });
+      }
       
       return {
         success: result.success,
@@ -186,6 +211,19 @@ export class AutomationActionsService {
 
       // Llamar a la función de metaAdsExecutor
       const result = await changeCampaignBudget(campaignId, newBudget, credentials);
+      
+      // Enviar notificación por email si la acción fue exitosa
+      if (result.success) {
+        await emailNotificationService.notifyBudgetReduced({
+          action: 'reduce_budget',
+          campaignId,
+          campaignName,
+          reason,
+          previousValue: currentBudget,
+          newValue: newBudget,
+          timestamp: new Date(),
+        });
+      }
       
       return {
         success: result.success,
