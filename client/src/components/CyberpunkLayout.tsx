@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { BarChart3, ShieldAlert, Target, Activity, Settings, Menu, X, Brain, Building2, TrendingUp, FileText } from "lucide-react";
+import { BarChart3, ShieldAlert, Target, Activity, Settings, Menu, X, Brain, Building2, TrendingUp, FileText, Zap } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -15,6 +15,7 @@ export default function CyberpunkLayout({ children }: CyberpunkLayoutProps) {
 
   const navItems = [
     { href: "/", label: "DASHBOARD", icon: BarChart3 },
+    { href: "/auto-pilot", label: "AUTO-PILOT", icon: Zap },
     { href: "/ai-central", label: "AI CENTRAL", icon: Brain },
     { href: "/ios-audit", label: "iOS AUDIT", icon: ShieldAlert },
     { href: "/campaigns", label: "CAMPAIGNS", icon: Target },

@@ -311,3 +311,13 @@
 - [ ] Crear UI de configuración de notificaciones
 - [ ] Implementar resumen diario de acciones
 - [ ] Tests de envío de notificaciones
+
+## 🤖 SCHEDULER AUTOMÁTICO (CRON)
+- [x] Instalar dependencia node-cron
+- [x] Crear servicio automationScheduler.ts con configuración de cron
+- [x] Implementar ejecución automática de reglas cada 1 hora
+- [x] Agregar sistema de logs de ejecuciones del scheduler
+- [x] Crear endpoints tRPC: startScheduler, stopScheduler, getSchedulerStatus
+- [x] Agregar UI de control del scheduler (activar/desactivar, configurar frecuencia)
+- [x] Implementar indicador visual de "Auto-Pilot Activo"
+- [ ] Tests unitarios del scheduler
