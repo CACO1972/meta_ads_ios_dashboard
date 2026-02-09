@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, userId, appId, adAccountId, \n  CASE WHEN accessToken IS NOT NULL AND accessToken != '' THEN 'CONFIGURADO' ELSE 'NO CONFIGURADO' END as accessToken_status,\n  CASE WHEN appSecret IS NOT NULL AND appSecret != '' THEN 'CONFIGURADO' ELSE 'NO CONFIGURADO' END as appSecret_status,\n  createdAt \nFROM meta_ads_credentials;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT id, userId, appId, adAccountId, \n  CASE WHEN accessToken IS NOT NULL AND accessToken != '' THEN 'CONFIGURADO' ELSE 'NO CONFIGURADO' END as accessToken_status,\n  CASE WHEN appSecret IS NOT NULL AND appSecret != '' THEN 'CONFIGURADO' ELSE 'NO CONFIGURADO' END as appSecret_status,\n  createdAt \nFROM meta_ads_credentials;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'vzymfkvbkzbwqmfdygxesh.meta_ads_credentials' doesn't exist"
+  ]
+}

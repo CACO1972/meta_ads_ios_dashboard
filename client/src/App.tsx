@@ -13,6 +13,7 @@ import DentalinkSettings from "./pages/DentalinkSettings";
 import DentalinkConversions from "@/pages/DentalinkConversions";
 import ReportsPage from "@/pages/ReportsPage";
 import AutoPilot from "@/pages/AutoPilot";
+import SystemDiagnostic from "@/pages/SystemDiagnostic";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -27,6 +28,7 @@ function Router() {
       <Route path={"/dentalink-conversions"} component={DentalinkConversions} />
       <Route path={"/reports"} component={ReportsPage} />
       <Route path={"/auto-pilot"} component={AutoPilot} />
+      <Route path={"/diagnostic"} component={SystemDiagnostic} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

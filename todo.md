@@ -321,3 +321,10 @@
 - [x] Agregar UI de control del scheduler (activar/desactivar, configurar frecuencia)
 - [x] Implementar indicador visual de "Auto-Pilot Activo"
 - [ ] Tests unitarios del scheduler
+
+## 🔍 VALIDACIÓN CRÍTICA DE API Y AUTOMATIZACIÓN
+- [ ] Verificar que credenciales de Meta Ads están guardadas correctamente en BD
+- [ ] Probar conexión real con Meta Ads API (obtener campañas reales)
+- [ ] Validar que el scheduler realmente ejecuta acciones (no solo logs)
+- [ ] Verificar que las notificaciones por email se envían realmente
+- [ ] Probar flujo completo: activar Auto-Pilot → esperar ejecución → verificar acciones en Meta Ads
