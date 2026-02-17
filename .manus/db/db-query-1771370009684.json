@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE dentalinkCredentials SET apiToken = 'zvj5CxnfjW8AcYbwNY3QefWq8wKedXzANnYCSarQ.BwgGcF4iPKIh84p8PJc0gsMXBOevRXMDEsFmITaF', updatedAt = NOW() WHERE userId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute UPDATE dentalinkCredentials SET apiToken = 'zvj5CxnfjW8AcYbwNY3QefWq8wKedXzANnYCSarQ.BwgGcF4iPKIh84p8PJc0gsMXBOevRXMDEsFmITaF', updatedAt = NOW() WHERE userId = 1;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 377
+}

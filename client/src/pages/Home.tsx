@@ -15,6 +15,11 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [pausingAds, setPausingAds] = useState(false);
 
+  // Validate token health
+  const { data: tokenHealth } = trpc.metaAds.validateToken.useQuery(undefined, {
+    refetchInterval: 5 * 60 * 1000, // Check every 5 minutes
+  });
+
   // Fetch data from Meta Ads API
   const { data: credentials } = trpc.metaAds.getCredentials.useQuery();
   const { data: insights, isLoading: insightsLoading } = trpc.metaAds.getAdInsights.useQuery(undefined, {
@@ -169,7 +174,7 @@ export default function Home() {
             COMMAND CENTER
           </h1>
           <p className="text-muted-foreground font-mono mt-1">
-            AUDIT PERIOD: JAN 1 - DEC 3, 2025 | STATUS: {metrics.highCPRAds.length > 0 ? (
+            LIVE DATA | STATUS: {metrics.highCPRAds.length > 0 ? (
               <span className="text-destructive animate-pulse">CRITICAL ALERTS DETECTED</span>
             ) : (
               <span className="text-primary">OPERATIONAL</span>
@@ -212,6 +217,46 @@ export default function Home() {
           </Button>
         </div>
       </div>
+
+      {/* Token Health Banner */}
+      {tokenHealth && !tokenHealth.valid && (
+        <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="w-6 h-6 text-destructive animate-pulse" />
+            <div>
+              <h3 className="font-orbitron font-bold text-destructive text-sm">TOKEN ERROR</h3>
+              <p className="text-xs text-muted-foreground">{tokenHealth.message}</p>
+            </div>
+          </div>
+          <Button
+            variant="destructive"
+            size="sm"
+            className="font-mono"
+            onClick={() => setLocation('/settings')}
+          >
+            RENOVAR TOKEN
+          </Button>
+        </div>
+      )}
+      {tokenHealth && tokenHealth.valid && tokenHealth.reason === 'expiring_soon' && (
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="w-6 h-6 text-yellow-500" />
+            <div>
+              <h3 className="font-orbitron font-bold text-yellow-500 text-sm">TOKEN EXPIRING SOON</h3>
+              <p className="text-xs text-muted-foreground">{tokenHealth.message}</p>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="font-mono border-yellow-500 text-yellow-500 hover:bg-yellow-500/10"
+            onClick={() => setLocation('/settings')}
+          >
+            RENOVAR TOKEN
+          </Button>
+        </div>
+      )}
 
       {isLoading ? (
         <div className="flex items-center justify-center min-h-[400px]">

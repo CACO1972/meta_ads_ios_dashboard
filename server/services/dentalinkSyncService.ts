@@ -240,21 +240,25 @@ export class DentalinkSyncService {
         )
         .limit(1);
 
+      const appointmentData = {
+        patientId: patient.length > 0 ? patient[0].id : null,
+        dentalinkPatientId: appointment.id_paciente,
+        dentistId: appointment.id_dentista || null,
+        sucursalId: appointment.id_sucursal || null,
+        estadoId: appointment.id_estado || null,
+        fecha: appointment.fecha || '',
+        horaInicio: appointment.hora_inicio || '',
+        duracion: appointment.duracion || 0,
+        comentarios: appointment.comentarios || null,
+        estadoNombre: appointment.estado?.nombre || null,
+        estadoColor: appointment.estado?.color || null,
+      };
+
       if (existing.length > 0) {
         await db
           .update(dentalinkAppointments)
           .set({
-            patientId: patient.length > 0 ? patient[0].id : null,
-            dentalinkPatientId: appointment.id_paciente,
-            dentistId: appointment.id_dentista,
-            sucursalId: appointment.id_sucursal,
-            estadoId: appointment.id_estado,
-            fecha: appointment.fecha,
-            horaInicio: appointment.hora_inicio,
-            duracion: appointment.duracion,
-            comentarios: appointment.comentarios,
-            estadoNombre: appointment.estado?.nombre,
-            estadoColor: appointment.estado?.color,
+            ...appointmentData,
             lastSyncAt: new Date(),
             updatedAt: new Date(),
           })
@@ -264,17 +268,7 @@ export class DentalinkSyncService {
         await db.insert(dentalinkAppointments).values({
           userId,
           dentalinkId: appointment.id,
-          patientId: patient.length > 0 ? patient[0].id : null,
-          dentalinkPatientId: appointment.id_paciente,
-          dentistId: appointment.id_dentista,
-          sucursalId: appointment.id_sucursal,
-          estadoId: appointment.id_estado,
-          fecha: appointment.fecha,
-          horaInicio: appointment.hora_inicio,
-          duracion: appointment.duracion,
-          comentarios: appointment.comentarios,
-          estadoNombre: appointment.estado?.nombre,
-          estadoColor: appointment.estado?.color,
+          ...appointmentData,
           lastSyncAt: new Date(),
         });
         syncedCount++;
@@ -322,22 +316,26 @@ export class DentalinkSyncService {
         )
         .limit(1);
 
+      const treatmentData = {
+        patientId: patient.length > 0 ? patient[0].id : null,
+        dentalinkPatientId: treatment.id_paciente,
+        dentistId: treatment.id_dentista || null,
+        sucursalId: treatment.id_sucursal || null,
+        nombre: treatment.nombre || '',
+        fecha: treatment.fecha || '',
+        finalizado: treatment.finalizado === 1,
+        expirado: treatment.expirado === 1,
+        bloqueado: treatment.bloqueado === 1,
+        total: (treatment.total ?? 0).toString(),
+        pagado: (treatment.pagado ?? 0).toString(),
+        saldo: (treatment.saldo ?? 0).toString(),
+      };
+
       if (existing.length > 0) {
         await db
           .update(dentalinkTreatments)
           .set({
-            patientId: patient.length > 0 ? patient[0].id : null,
-            dentalinkPatientId: treatment.id_paciente,
-            dentistId: treatment.id_dentista,
-            sucursalId: treatment.id_sucursal,
-            nombre: treatment.nombre,
-            fecha: treatment.fecha,
-            finalizado: treatment.finalizado === 1,
-            expirado: treatment.expirado === 1,
-            bloqueado: treatment.bloqueado === 1,
-            total: treatment.total.toString(),
-            pagado: treatment.pagado.toString(),
-            saldo: treatment.saldo.toString(),
+            ...treatmentData,
             lastSyncAt: new Date(),
             updatedAt: new Date(),
           })
@@ -347,18 +345,7 @@ export class DentalinkSyncService {
         await db.insert(dentalinkTreatments).values({
           userId,
           dentalinkId: treatment.id,
-          patientId: patient.length > 0 ? patient[0].id : null,
-          dentalinkPatientId: treatment.id_paciente,
-          dentistId: treatment.id_dentista,
-          sucursalId: treatment.id_sucursal,
-          nombre: treatment.nombre,
-          fecha: treatment.fecha,
-          finalizado: treatment.finalizado === 1,
-          expirado: treatment.expirado === 1,
-          bloqueado: treatment.bloqueado === 1,
-          total: treatment.total.toString(),
-          pagado: treatment.pagado.toString(),
-          saldo: treatment.saldo.toString(),
+          ...treatmentData,
           lastSyncAt: new Date(),
         });
         syncedCount++;

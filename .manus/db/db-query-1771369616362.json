@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE metaAdsCredentials SET accessToken = 'EAALwNGPDFogBQuiitDii6SMwER3s0bm76fvJmZC70WFXyzXkjVlcaaGwLjJuOCzKnZAI7c2tcarF2ZCM1QHr3KHENrVNxG2EFQA9yZAnLrfG9zBsIcsccX4yZC0PHDFR7f6PvSzYVBnSiwnQiCcc2f0hl8oGzqH1wgr2zMbRaFudxOT4mmCGcrT7MJv9bzWGnhU40nUTIftE7PF6VUhWBD1rWocONOumh5gZDZD', updatedAt = NOW() WHERE userId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute UPDATE metaAdsCredentials SET accessToken = 'EAALwNGPDFogBQuiitDii6SMwER3s0bm76fvJmZC70WFXyzXkjVlcaaGwLjJuOCzKnZAI7c2tcarF2ZCM1QHr3KHENrVNxG2EFQA9yZAnLrfG9zBsIcsccX4yZC0PHDFR7f6PvSzYVBnSiwnQiCcc2f0hl8oGzqH1wgr2zMbRaFudxOT4mmCGcrT7MJv9bzWGnhU40nUTIftE7PF6VUhWBD1rWocONOumh5gZDZD', updatedAt = NOW() WHERE userId = 1;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 354
+}

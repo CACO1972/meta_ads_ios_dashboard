@@ -363,6 +363,85 @@ export const metaAdsRouter = router({
       }
     }),
 
+  // Validate token health - checks if token is valid and returns expiry info
+  validateToken: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'User not authenticated',
+      });
+    }
+
+    const credentials = await getMetaAdsCredentials(ctx.user.id);
+
+    if (!credentials) {
+      return { valid: false, reason: 'no_credentials', message: 'No hay credenciales configuradas' };
+    }
+
+    try {
+      // Check token validity with debug_token endpoint
+      const debugResponse = await fetch(
+        `https://graph.facebook.com/v21.0/debug_token?input_token=${credentials.accessToken}&access_token=${credentials.accessToken}`
+      );
+
+      if (!debugResponse.ok) {
+        return { valid: false, reason: 'token_invalid', message: 'Token inválido o expirado' };
+      }
+
+      const debugData = await debugResponse.json();
+      const tokenData = debugData.data;
+
+      if (!tokenData.is_valid) {
+        return {
+          valid: false,
+          reason: 'token_expired',
+          message: 'Token expirado. Ve a Settings para renovarlo.',
+          expiresAt: tokenData.expires_at ? new Date(tokenData.expires_at * 1000).toISOString() : null,
+        };
+      }
+
+      // Check if token expires within 7 days
+      const expiresAt = tokenData.expires_at ? new Date(tokenData.expires_at * 1000) : null;
+      const now = new Date();
+      const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const isExpiringSoon = expiresAt && expiresAt < sevenDaysFromNow;
+
+      // Also test actual API access
+      const testResponse = await fetch(
+        `https://graph.facebook.com/v21.0/${credentials.adAccountId}?fields=name,account_status&access_token=${credentials.accessToken}`
+      );
+
+      if (!testResponse.ok) {
+        const error = await testResponse.json();
+        return {
+          valid: false,
+          reason: 'api_error',
+          message: error.error?.message || 'Error al acceder a la cuenta de anuncios',
+        };
+      }
+
+      const accountData = await testResponse.json();
+
+      return {
+        valid: true,
+        reason: isExpiringSoon ? 'expiring_soon' : 'ok',
+        message: isExpiringSoon
+          ? `Token expira el ${expiresAt!.toLocaleDateString('es-CL')}. Renuévalo pronto.`
+          : 'Token válido y conexión funcionando',
+        accountName: accountData.name,
+        accountStatus: accountData.account_status,
+        expiresAt: expiresAt?.toISOString() || null,
+        scopes: tokenData.scopes || [],
+      };
+    } catch (error) {
+      return {
+        valid: false,
+        reason: 'network_error',
+        message: 'Error de red al validar el token',
+      };
+    }
+  }),
+
   pauseMultipleAds: protectedProcedure
     .input(z.object({
       adIds: z.array(z.string()),

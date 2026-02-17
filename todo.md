@@ -320,11 +320,24 @@
 - [x] Crear endpoints tRPC: startScheduler, stopScheduler, getSchedulerStatus
 - [x] Agregar UI de control del scheduler (activar/desactivar, configurar frecuencia)
 - [x] Implementar indicador visual de "Auto-Pilot Activo"
-- [ ] Tests unitarios del scheduler
+- [x] Tests unitarios del scheduler
 
 ## 🔍 VALIDACIÓN CRÍTICA DE API Y AUTOMATIZACIÓN
-- [ ] Verificar que credenciales de Meta Ads están guardadas correctamente en BD
-- [ ] Probar conexión real con Meta Ads API (obtener campañas reales)
+- [x] Verificar que credenciales de Meta Ads están guardadas correctamente en BD
+- [x] Probar conexión real con Meta Ads API (obtener campañas reales)
 - [ ] Validar que el scheduler realmente ejecuta acciones (no solo logs)
 - [ ] Verificar que las notificaciones por email se envían realmente
 - [ ] Probar flujo completo: activar Auto-Pilot → esperar ejecución → verificar acciones en Meta Ads
+
+## 🔴 CORRECCIONES POST-AUDITORÍA (CRÍTICO)
+- [x] Solicitar renovación de token Meta Ads (expirado 8-Feb-2026)
+- [x] Solicitar renovación de token Dentalink (error 401)
+- [x] Dashboard Home.tsx ya usaba datos reales - corregido Ad Account ID y token
+- [x] Eliminar links rotos del menú: iOS AUDIT, CAMPAIGNS, PERFORMANCE
+- [ ] Eliminar tablas duplicadas: meta_ads_credentials, automation_rules (bloqueado por seguridad)
+- [ ] Crear reglas de automatización por defecto al configurar credenciales
+- [x] Agregar detección automática de token expirado con banner visual
+- [x] Dashboard muestra banner TOKEN ERROR / TOKEN EXPIRING SOON cuando corresponde
+- [x] Corregir bug Dentalink sync: fecha_creacion → fecha_afiliacion
+- [x] Corregir bug Dentalink sync: null handling en treatments y appointments
+- [x] Corregir Ad Account ID de act_886aborede a act_25612728 (cuenta real)

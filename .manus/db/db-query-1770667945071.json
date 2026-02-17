@@ -1,0 +1,106 @@
+{
+  "query": "SELECT TABLE_NAME, TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE();",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT TABLE_NAME, TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE();",
+  "rows": [
+    {
+      "TABLE_NAME": "__drizzle_migrations",
+      "TABLE_ROWS": "6"
+    },
+    {
+      "TABLE_NAME": "users",
+      "TABLE_ROWS": "1"
+    },
+    {
+      "TABLE_NAME": "metaAdsCredentials",
+      "TABLE_ROWS": "1"
+    },
+    {
+      "TABLE_NAME": "aiCopilotConfig",
+      "TABLE_ROWS": "1"
+    },
+    {
+      "TABLE_NAME": "services",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "suggestionApprovals",
+      "TABLE_ROWS": "33"
+    },
+    {
+      "TABLE_NAME": "suggestionExecutions",
+      "TABLE_ROWS": "33"
+    },
+    {
+      "TABLE_NAME": "suggestions",
+      "TABLE_ROWS": "65"
+    },
+    {
+      "TABLE_NAME": "audienceInsights",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "contentGuides",
+      "TABLE_ROWS": "15"
+    },
+    {
+      "TABLE_NAME": "globalCampaigns",
+      "TABLE_ROWS": "5"
+    },
+    {
+      "TABLE_NAME": "platformCredentials",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "dentalinkAppointments",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "dentalinkCredentials",
+      "TABLE_ROWS": "1"
+    },
+    {
+      "TABLE_NAME": "dentalinkPatients",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "dentalinkTreatments",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "leadToPatientConversions",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "leadPatientMatches",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "metaAdsLeads",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "automationRules",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "automationLogs",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "campaignSnapshots",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "meta_ads_credentials",
+      "TABLE_ROWS": "0"
+    },
+    {
+      "TABLE_NAME": "automation_rules",
+      "TABLE_ROWS": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tTABLE_ROWS\n__drizzle_migrations\t6\nusers\t1\nmetaAdsCredentials\t1\naiCopilotConfig\t1\nservices\t0\nsuggestionApprovals\t33\nsuggestionExecutions\t33\nsuggestions\t65\naudienceInsights\t0\ncontentGuides\t15\nglobalCampaigns\t5\nplatformCredentials\t0\ndentalinkAppointments\t0\ndentalinkCredentials\t1\ndentalinkPatients\t0\ndentalinkTreatments\t0\nleadToPatientConversions\t0\nleadPatientMatches\t0\nmetaAdsLeads\t0\nautomationRules\t0\nautomationLogs\t0\ncampaignSnapshots\t0\nmeta_ads_credentials\t0\nautomation_rules\t0\n",
+  "stderr": "",
+  "execution_time_ms": 378
+}

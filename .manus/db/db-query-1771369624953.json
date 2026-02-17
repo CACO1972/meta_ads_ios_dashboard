@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, userId, appId, adAccountId, LENGTH(accessToken) as tokenLength, updatedAt FROM metaAdsCredentials;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT id, userId, appId, adAccountId, LENGTH(accessToken) as tokenLength, updatedAt FROM metaAdsCredentials;",
+  "rows": [
+    {
+      "id": "60001",
+      "userId": "1",
+      "appId": "827057756116616",
+      "adAccountId": "act_25612728",
+      "tokenLength": "232",
+      "updatedAt": "2026-02-17 23:06:56"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tappId\tadAccountId\ttokenLength\tupdatedAt\n60001\t1\t827057756116616\tact_25612728\t232\t2026-02-17 23:06:56\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

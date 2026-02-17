@@ -1,0 +1,18 @@
+{
+  "query": "SELECT userId, appId, adAccountId, LENGTH(accessToken) as tokenLen, LENGTH(appSecret) as secretLen, createdAt FROM metaAdsCredentials;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT userId, appId, adAccountId, LENGTH(accessToken) as tokenLen, LENGTH(appSecret) as secretLen, createdAt FROM metaAdsCredentials;",
+  "rows": [
+    {
+      "userId": "1",
+      "appId": "827057756116616",
+      "adAccountId": "act_25612728",
+      "tokenLen": "233",
+      "secretLen": "32",
+      "createdAt": "2026-02-09 04:36:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "userId\tappId\tadAccountId\ttokenLen\tsecretLen\tcreatedAt\n1\t827057756116616\tact_25612728\t233\t32\t2026-02-09 04:36:47\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

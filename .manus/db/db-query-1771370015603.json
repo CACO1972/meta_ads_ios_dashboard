@@ -1,0 +1,22 @@
+{
+  "query": "SELECT 'MetaAds' as service, adAccountId as account, LENGTH(accessToken) as tokenLen, updatedAt FROM metaAdsCredentials WHERE userId = 1 UNION ALL SELECT 'Dentalink', '', LENGTH(apiToken), updatedAt FROM dentalinkCredentials WHERE userId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SELECT 'MetaAds' as service, adAccountId as account, LENGTH(accessToken) as tokenLen, updatedAt FROM metaAdsCredentials WHERE userId = 1 UNION ALL SELECT 'Dentalink', '', LENGTH(apiToken), updatedAt FROM dentalinkCredentials WHERE userId = 1;",
+  "rows": [
+    {
+      "service": "Dentalink",
+      "account": "",
+      "tokenLen": "81",
+      "updatedAt": "2026-02-17 23:13:29"
+    },
+    {
+      "service": "MetaAds",
+      "account": "act_25612728",
+      "tokenLen": "232",
+      "updatedAt": "2026-02-17 23:12:54"
+    }
+  ],
+  "messages": [],
+  "stdout": "service\taccount\ttokenLen\tupdatedAt\nDentalink\t\t81\t2026-02-17 23:13:29\nMetaAds\tact_25612728\t232\t2026-02-17 23:12:54\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

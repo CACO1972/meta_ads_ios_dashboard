@@ -149,11 +149,13 @@ export class DentalinkService {
         if (filters.celular) {
           queryObj.celular = { lk: filters.celular };
         }
+        // Note: Dentalink API does NOT support filtering by fecha_creacion
+        // Use fecha_afiliacion instead which is the registration date
         if (filters.fecha_desde) {
-          queryObj.fecha_creacion = { gte: filters.fecha_desde }; // greater than or equal
+          queryObj.fecha_afiliacion = { gte: filters.fecha_desde };
         }
         if (filters.fecha_hasta) {
-          queryObj.fecha_creacion = { ...queryObj.fecha_creacion, lte: filters.fecha_hasta }; // less than or equal
+          queryObj.fecha_afiliacion = { ...queryObj.fecha_afiliacion, lte: filters.fecha_hasta };
         }
         
         if (Object.keys(queryObj).length > 0) {

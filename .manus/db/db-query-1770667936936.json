@@ -1,0 +1,82 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4GzcM4X5Z8pPFSY.b9e460e08d08 --database VzYMFKVbkzbWqmFdygxesH --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "aiCopilotConfig"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "audienceInsights"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "automationLogs"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "automationRules"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "automation_rules"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "campaignSnapshots"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "contentGuides"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "dentalinkAppointments"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "dentalinkCredentials"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "dentalinkPatients"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "dentalinkTreatments"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "globalCampaigns"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "leadPatientMatches"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "leadToPatientConversions"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "metaAdsCredentials"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "metaAdsLeads"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "meta_ads_credentials"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "platformCredentials"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "services"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "suggestionApprovals"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "suggestionExecutions"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "suggestions"
+    },
+    {
+      "Tables_in_VzYMFKVbkzbWqmFdygxesH": "users"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_VzYMFKVbkzbWqmFdygxesH\n__drizzle_migrations\naiCopilotConfig\naudienceInsights\nautomationLogs\nautomationRules\nautomation_rules\ncampaignSnapshots\ncontentGuides\ndentalinkAppointments\ndentalinkCredentials\ndentalinkPatients\ndentalinkTreatments\nglobalCampaigns\nleadPatientMatches\nleadToPatientConversions\nmetaAdsCredentials\nmetaAdsLeads\nmeta_ads_credentials\nplatformCredentials\nservices\nsuggestionApprovals\nsuggestionExecutions\nsuggestions\nusers\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}
